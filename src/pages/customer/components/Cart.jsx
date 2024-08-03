@@ -6,7 +6,7 @@ import emptyCart from "../../../assets/cartimg.png"
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import { addToCart, removeAllFromCart, removeFromCart, updateCurrentUser } from '../../../redux/userSlice';  // **Correct import statement**
-import { BasicButton, LightPurpleButton } from '../../../utils/styles';
+import { BasicButton } from '../../../utils/styles';
 import { useNavigate } from 'react-router-dom';
 
 // **Define LightPurpleButton locally**
