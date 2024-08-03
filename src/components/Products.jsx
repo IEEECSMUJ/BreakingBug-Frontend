@@ -8,76 +8,81 @@ import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import { addStuff } from '../redux/userHandle';
 
-const Products = ({}) => {
+const Products = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const itemsPerPage = 9;
 
-  const { currentRole, responseSearch } = useSelector();
+  // Get data from the Redux store
+  const { currentRole, responseSearch } = useSelector((state) => ({
+    currentRole: state.user.currentRole,
+    responseSearch: state.products?.responseSearch || [], // Ensure responseSearch is defined
+  }));
+
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
+  // Pagination calculations
   const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem + itemsPerPage;
-  const currentItems = (indexOfFirstItem, indexOfLastItem);
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = responseSearch.slice(indexOfFirstItem, indexOfLastItem);
 
+  // Handle adding to cart
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
     dispatch(addToCart(product));
   };
 
+  // Handle uploading a product
   const handleUpload = (event, product) => {
     event.stopPropagation();
-    console.log(product);
     dispatch(addStuff("ProductCreate", product));
   };
 
+  // Handle showing the login message
   const messageHandler = (event) => {
     event.stopPropagation();
-    setMessage("You have to login or register first")
-    setShowPopup(true)
+    setMessage("You have to login or register first");
+    setShowPopup(true);
   };
 
-  if (!responseSearch) {
-    return <div>Product not found</div>;
+  // Show a message if no products are found
+  if (!responseSearch.length) {
+    return <div>No products found</div>;
   }
 
   return (
     <>
       <ProductGrid container spacing={3}>
-        {currentItems.map((data, index) => (
+        {currentItems.map((data) => (
           <Grid item xs={12} sm={6} md={4}
-            key={index}
+            key={data._id}
             onClick={() => navigate("/product/view/" + data._id)}
             sx={{ cursor: "pointer" }}
           >
             <ProductContainer>
-              <ProductImage src={data.productImage} />
+              <ProductImage src={data.productImage} alt={data.productName} />
               <ProductName>{data.productName}</ProductName>
-              <PriceMrp>{data.price.mrp}</PriceMrp>
+              <PriceMrp>₹{data.price.mrp}</PriceMrp>
               <PriceCost>₹{data.price.cost}</PriceCost>
               <PriceDiscount>{data.price.discountPercent}% off</PriceDiscount>
               <AddToCart>
                 {currentRole === "Customer" &&
-                  <>
-                    <BasicButton
-                      onClick={(event) => handleAddToCart(event, data)}
-                    >
-                      Add To Cart
-                    </BasicButton>
-                  </>
+                  <BasicButton
+                    onClick={(event) => handleAddToCart(event, data)}
+                  >
+                    Add To Cart
+                  </BasicButton>
                 }
                 {currentRole === "Shopcart" &&
-                  <>
-                    <BasicButton
-                      onClick={(event) => handleUpload(event, data)}
-                    >
-                      Upload
-                    </BasicButton>
-                  </>
+                  <BasicButton
+                    onClick={(event) => handleUpload(event, data)}
+                  >
+                    Upload
+                  </BasicButton>
                 }
-
               </AddToCart>
             </ProductContainer>
           </Grid>
@@ -86,16 +91,16 @@ const Products = ({}) => {
 
       <Container sx={{ mt: 10, mb: 10, display: "flex", justifyContent: 'center', alignItems: "center" }}>
         <Pagination
-          count={Math.ceil(productData.length / itemsPerPage)}
+          count={Math.ceil(responseSearch.length / itemsPerPage)}
           page={currentPage}
+          onChange={(event, value) => setCurrentPage(value)}
           color="secondary"
-
         />
       </Container>
 
       <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
     </>
-  )
+  );
 };
 
 export default Products;

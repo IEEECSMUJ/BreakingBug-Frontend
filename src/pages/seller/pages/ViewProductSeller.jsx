@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { BlueButton, DarkRedButton, GreenButton } from '../../../utils/buttonStyles';
 import { deleteStuff, getProductDetails, updateStuff } from '../../../redux/userHandle';
-import { Delete, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
+import { Delete, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { Avatar, Box, Card, CircularProgress, Collapse, IconButton, Stack, TextField, Typography } from '@mui/material';
 import altImage from "../../../assets/altimg.png";
 import Popup from '../../../components/Popup';
@@ -42,8 +42,6 @@ const ViewProductSeller = () => {
 
   const [dialog, setDialog] = useState("");
   const [showDialog, setShowDialog] = useState(false);
-
-  console.log(price);
 
   useEffect(() => {
     if (productDetails) {
@@ -83,14 +81,12 @@ const ViewProductSeller = () => {
   };
 
   const deleteHandler = (reviewId) => {
-    console.log(reviewId);
-
     dispatch(updateStuff(fields, productID, "deleteProductReview"));
   };
 
   const deleteAllHandler = () => {
-    dispatch(deleteStuff(productID, "deleteAllProductReviews"))
-  }
+    dispatch(deleteStuff(productID, "deleteAllProductReviews"));
+  };
 
   useEffect(() => {
     if (status === "updated" || status === "deleted") {
@@ -98,7 +94,7 @@ const ViewProductSeller = () => {
       dispatch(getProductDetails(productID));
       setShowPopup(true);
       setMessage("Done Successfully");
-      setShowTab(false)
+      setShowTab(false);
       dispatch(underControl());
     } else if (error) {
       setLoader(false);
@@ -106,6 +102,8 @@ const ViewProductSeller = () => {
       setShowPopup(true);
     }
   }, [status, error, dispatch, productID]);
+
+  const buttonText = showTab ? "Collapse" : "Expand";
 
   return (
     <>
@@ -136,9 +134,7 @@ const ViewProductSeller = () => {
                 </ProductContainer>
 
                 <ButtonContainer>
-                  <GreenButton
-                    onClick={() => setShowTab(!showTab)}
-                  >
+                  <GreenButton onClick={() => setShowTab(!showTab)}>
                     {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}{buttonText}
                   </GreenButton>
                 </ButtonContainer>
@@ -284,7 +280,7 @@ const ViewProductSeller = () => {
                   {productDetails.reviews && productDetails.reviews.length > 0 &&
                     <DarkRedButton onClick={() => {
                       setDialog("Do you want to delete all notices ?")
-                      setShowDialog(true)
+                      setShowDialog(true);
                     }}>
                       Remove All Reviews
                     </DarkRedButton>}
@@ -296,21 +292,17 @@ const ViewProductSeller = () => {
                       <ReviewCard key={index}>
                         <ReviewCardDivision>
                           <Avatar sx={{ width: "60px", height: "60px", marginRight: "1rem", backgroundColor: generateRandomColor(review._id) }}>
-                            {String(reviewreviewername).charAt(0)}
+                            {String(review.reviewerName).charAt(0)}
                           </Avatar>
                           <ReviewDetails>
-                            <Typography variant="h6">{reviewreviewername}</Typography>
+                            <Typography variant="h6">{review.reviewerName}</Typography>
                             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-
-                              <Typography variant="body2">
-                                {timeAgo(review.date)}
-                              </Typography>
+                              <Typography variant="body2">{timeAgo(review.date)}</Typography>
                             </div>
                             <Typography variant="subtitle1">Rating: {review.rating}</Typography>
                             <Typography variant="body1">{review.comment}</Typography>
                           </ReviewDetails>
-                          <IconButton onClick={() => deleteHandler(review._id)}
-                            sx={{ width: "4rem", p: 0 }}>
+                          <IconButton onClick={() => deleteHandler(review._id)} sx={{ width: "4rem", p: 0 }}>
                             <Delete color='error' sx={{ fontSize: "2rem" }} />
                           </IconButton>
                         </ReviewCardDivision>
@@ -349,7 +341,6 @@ const ProductContainer = styled.div`
 
 const ProductImage = styled.img`
     max-width: 300px;
-    /* width: 50%; */
     margin-bottom: 20px;
 `;
 

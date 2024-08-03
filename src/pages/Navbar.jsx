@@ -27,67 +27,46 @@ import { updateCustomer } from '../redux/userHandle';
 
 const Navbar = () => {
     const { currentUser, currentRole } = useSelector(state => state.user);
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElSign, setAnchorElSign] = React.useState(null);
+    const [isCartOpen, setIsCartOpen] = React.useState(false);
+    const totalQuantity = currentUser && currentUser.cartDetails ? currentUser.cartDetails.length : 0;
 
-    const totalQuantity = currentUser && currentUser.cartDetails && 0;
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    // State declarations
+  
+
+    // Effect to update customer
     React.useEffect(() => {
         if (currentRole === "Customer") {
             console.log(currentUser);
             dispatch(updateCustomer(currentUser, currentUser._id));
         }
-    }, [currentRole, currentUser, dispatch, ancorElNav])
-
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [anchorElSign, setAnchorElSign] = React.useState(null);
+    }, [currentRole, currentUser, dispatch]);
 
     const open = Boolean(anchorElUser);
     const openSign = Boolean(anchorElSign);
 
-    const [isCartOpen, setIsCartOpen] = React.useState(false);
+    // Cart handlers
+    const handleOpenCart = () => setIsCartOpen(true);
+    const handleCloseCart = () => setIsCartOpen(false);
 
-    // Cart
-    const handleOpen Cart = () => {
-        setIsCartOpen(true);
-    };
+    // Navigation Menu handlers
+    const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+    const handleCloseNavMenu = () => setAnchorElNav(null);
 
-    const handleOpenCart = () => {
-        setIsCartOpen(false);
-    };
+    // User Menu handlers
+    const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+    const handleCloseUserMenu = () => setAnchorElUser(null);
 
-    // Navigation Menu
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+    // Signin Menu handlers
+    const handleOpenSigninMenu = (event) => setAnchorElSign(event.currentTarget);
+    const handleCloseSigninMenu = () => setAnchorElSign(null);
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
-
-    // User Menu
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
-    // Signin Menu
-    const handleOpenSigninMenu = (event) => {
-        setAnchorElSign(event.currentTarget);
-    };
-
-    const handleCloseSigninMenu = () => {
-        setAnchorElSign(null);
-    };
-
-    const homeHandler = () => {
-        navigate("/")
-    };
+    const homeHandler = () => navigate("/");
 
     return (
         <AppBar position="sticky">
@@ -95,14 +74,11 @@ const Navbar = () => {
                 <Toolbar disableGutters>
 
                     {/* MOBILE */}
-
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={() => { navigate("/Search") }}
+                            aria-label="search"
+                            onClick={() => navigate("/Search")}
                             color="inherit"
                         >
                             <SearchIcon />
@@ -140,54 +116,48 @@ const Navbar = () => {
 
                     {currentRole === null &&
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <>
-                                <IconButton
-                                    size="large"
-                                    aria-label="account of current user"
-                                    aria-controls="menu-appbar"
-                                    aria-haspopup="true"
-                                    onClick={handleOpenNavMenu}
-                                    color="inherit"
-                                >
-                                    <Login />
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorElNav}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'left',
-                                    }}
-                                    open={Boolean(anchorElNav)}
-                                  
-                                    onClick={handleCloseUserMenu}
-                                    sx={{
-                                        display: { xs: 'block', md: 'none' },
-                                    }}
-                                >
-                                    <MenuItem onClick={() => {
-                                      navigate("/Customerlogin")
-                                     }}>
-                                        <Typography textAlign="center">Sign in as customer</Typography>
-                                    </MenuItem>
-                                    <MenuItem onClick={() => {
-                                        navigate("/Sellerlogin")
-                                        handleCloseNavMenu()
-                                    }}>
-                                        <Typography textAlign="center">Sign in as seller</Typography>
-                                    </MenuItem>
-                                </Menu>
-                            </>
+                            <IconButton
+                                size="large"
+                                aria-label="account menu"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <Login />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                <MenuItem onClick={() => navigate("/Customerlogin")}>
+                                    <Typography textAlign="center">Sign in as customer</Typography>
+                                </MenuItem>
+                                <MenuItem onClick={() => {
+                                    navigate("/Sellerlogin");
+                                    handleCloseNavMenu();
+                                }}>
+                                    <Typography textAlign="center">Sign in as seller</Typography>
+                                </MenuItem>
+                            </Menu>
                         </Box>
                     }
 
                     {/* DESKTOP */}
-
                     <HomeContainer>
                         <Typography
                             variant="h6"
@@ -212,20 +182,19 @@ const Navbar = () => {
                                 onClick={homeHandler}
                             >
                                 <LocalMallIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-
                                 SHOPCART
                             </NavLogo>
                         </Typography>
                     </HomeContainer>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, }}>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         <Search />
                         <ProductsMenu dropName="Categories" />
                         <ProductsMenu dropName="Products" />
                     </Box>
 
                     {currentRole === null &&
-                        <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, }}>
+                        <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
                             <Button
                                 onClick={handleOpenSigninMenu}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
@@ -237,7 +206,6 @@ const Navbar = () => {
                                 id="menu-appbar"
                                 open={openSign}
                                 onClose={handleCloseSigninMenu}
-                                onClick={handleCloseSigninMenu}
                                 PaperProps={{
                                     elevation: 0,
                                     sx: styles.styledPaper,
@@ -265,7 +233,6 @@ const Navbar = () => {
                     }
 
                     {/* BOTH */}
-
                     {currentRole === "Customer" &&
                         <Box sx={{ flexGrow: 0, display: 'flex' }}>
                             <Tooltip title="Cart">
@@ -294,7 +261,6 @@ const Navbar = () => {
                                 id="menu-appbar"
                                 open={open}
                                 onClose={handleCloseUserMenu}
-                                onClick={handleCloseUserMenu}
                                 PaperProps={{
                                     elevation: 0,
                                     sx: styles.styledPaper,
@@ -332,8 +298,7 @@ const Navbar = () => {
                 </Toolbar>
             </Container>
 
-            {
-                isCartOpen &&
+            {isCartOpen &&
                 <Drawer
                     anchor="right"
                     open={isCartOpen}
@@ -350,14 +315,15 @@ const Navbar = () => {
                     <Cart setIsCartOpen={setIsCartOpen} />
                 </Drawer>
             }
-        </AppBar >
+        </AppBar>
     );
-}
+};
+
 export default Navbar;
 
 const HomeContainer = styled.div`
   display: flex;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 const styles = {
@@ -384,4 +350,4 @@ const styles = {
             zIndex: 0,
         },
     }
-}
+};

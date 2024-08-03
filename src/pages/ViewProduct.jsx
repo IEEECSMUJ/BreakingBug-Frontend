@@ -14,13 +14,11 @@ const ViewProduct = () => {
     const params = useParams();
     const productID = params.id;
 
-
     const { currentUser, currentRole, productDetails, loading, responseDetails } = useSelector(state => state.user);
 
     useEffect(() => {
         dispatch(getProductDetails(productID));
     }, [productID, dispatch]);
-
 
     const [anchorElMenu, setAnchorElMenu] = useState(null);
 
@@ -34,11 +32,10 @@ const ViewProduct = () => {
 
     const deleteHandler = (reviewId) => {
         const fields = { reviewId };
-
         dispatch(updateStuff(fields, "deleteProductReview"));
     };
 
-    const reviewer = currentUser && currentUser._id
+    const reviewer = currentUser && currentUser._id;
 
     return (
         <>
@@ -46,109 +43,102 @@ const ViewProduct = () => {
                 <div>Loading...</div>
                 :
                 <>
-                    {
-                        responseDetails ?
-                            <div>Product not found</div>
-                            :
-                            <>
-                                <ProductContainer>
-                                    <ProductImage src={productDetails && productDetails.productImage} alt={productDetails && productDetails.productName} />
-                                    <ProductInfo>
-                                        <ProductName>{productDetails && productDetails.productName}</ProductName>
-                                        <PriceContainer>
-                                            <PriceCost>₹{productDetails && productDetails.price && productDetails.price.cost}</PriceCost>
-                                            <PriceMrp>₹{productDetails && productDetails.price && productDetails.price.mrp}</PriceMrp>
-                                            <PriceDiscount>{productDetails && productDetails.price && productDetails.price.discountPercent}% off</PriceDiscount>
-                                        </PriceContainer>
-                                        <Description>{productDetails && productDetails.description}</Description>
-                                        <ProductDetails>
-                                            <p>Category: {productDetails && productDetails.category}</p>
-                                            <p>Subcategory: {productDetails && productDetails.subcategory}</p>
-                                        </ProductDetails>
-                                    </ProductInfo>
-                                </ProductContainer>
+                    {responseDetails ?
+                        <div>Product not found</div>
+                        :
+                        <>
+                            <ProductContainer>
+                                <ProductImage src={productDetails && productDetails.productImage} alt={productDetails && productDetails.productName} />
+                                <ProductInfo>
+                                    <ProductName>{productDetails && productDetails.productName}</ProductName>
+                                    <PriceContainer>
+                                        <PriceCost>₹{productDetails && productDetails.price && productDetails.price.cost}</PriceCost>
+                                        <PriceMrp>₹{productDetails && productDetails.price && productDetails.price.mrp}</PriceMrp>
+                                        <PriceDiscount>{productDetails && productDetails.price && productDetails.price.discountPercent}% off</PriceDiscount>
+                                    </PriceContainer>
+                                    <Description>{productDetails && productDetails.description}</Description>
+                                    <ProductDetails>
+                                        <p>Category: {productDetails && productDetails.category}</p>
+                                        <p>Subcategory: {productDetails && productDetails.subcategory}</p>
+                                    </ProductDetails>
+                                </ProductInfo>
+                            </ProductContainer>
 
-                                {
-                                    currentRole === "Customer" &&
-                                    <>
-                                        <ButtonContainer>
-                                            <BasicButton
-                                                onClick={() => dispatch(addToCart(productDetails))}
-                                            >
-                                                Add to Cart
-                                            </BasicButton>
-                                        </ButtonContainer>
-                                    </>
-                                }
+                            {currentRole === "Customer" &&
+                                <ButtonContainer>
+                                    <BasicButton onClick={() => dispatch(addToCart(productDetails))}>
+                                        Add to Cart
+                                    </BasicButton>
+                                </ButtonContainer>
+                            }
+                            <ReviewWritingContainer>
+                                <Typography variant="h4">Reviews</Typography>
+                            </ReviewWritingContainer>
+
+                            {productDetails.reviews && productDetails.reviews.length > 0 ? (
+                                <ReviewContainer>
+                                    {productDetails.reviews.map((review, index) => (
+                                        <ReviewCard key={index}>
+                                            <ReviewCardDivision>
+                                                <Avatar sx={{ width: "60px", height: "60px", marginRight: "1rem", backgroundColor: generateRandomColor(review._id) }}>
+                                                    {String(review.reviewer.name).charAt(0)}
+                                                </Avatar>
+                                                <ReviewDetails>
+                                                    <Typography variant="h6">{review.reviewer.name}</Typography>
+                                                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                                                        <Typography variant="body2">
+                                                            {timeAgo(review.date)}
+                                                        </Typography>
+                                                    </div>
+                                                    <Typography variant="subtitle1">Rating: {review.rating}</Typography>
+                                                    <Typography variant="body1">{review.comment}</Typography>
+                                                </ReviewDetails>
+                                                {review.reviewer._id === reviewer &&
+                                                    <>
+                                                        <IconButton onClick={handleOpenMenu} sx={{ width: "4rem", color: 'inherit', p: 0 }}>
+                                                            <MoreVert sx={{ fontSize: "2rem" }} />
+                                                        </IconButton>
+                                                        <Menu
+                                                            id="menu-appbar"
+                                                            anchorEl={anchorElMenu}
+                                                            anchorOrigin={{
+                                                                vertical: 'bottom',
+                                                                horizontal: 'left',
+                                                            }}
+                                                            keepMounted
+                                                            transformOrigin={{
+                                                                vertical: 'top',
+                                                                horizontal: 'left',
+                                                            }}
+                                                            open={Boolean(anchorElMenu)}
+                                                            onClose={handleCloseMenu}
+                                                            onClick={handleCloseMenu}
+                                                        >
+                                                            <MenuItem onClick={() => {
+                                                                handleCloseMenu();
+                                                            }}>
+                                                                <Typography textAlign="center">Edit</Typography>
+                                                            </MenuItem>
+                                                            <MenuItem onClick={() => {
+                                                                deleteHandler(review._id);
+                                                                handleCloseMenu();
+                                                            }}>
+                                                                <Typography textAlign="center">Delete</Typography>
+                                                            </MenuItem>
+                                                        </Menu>
+                                                    </>
+                                                }
+                                            </ReviewCardDivision>
+                                        </ReviewCard>
+                                    ))}
+                                </ReviewContainer>
+                            )
+                                :
                                 <ReviewWritingContainer>
-                                    <Typography variant="h4">Reviews</Typography>
+                                    <Typography variant="h6">No Reviews Found. Add a review.</Typography>
                                 </ReviewWritingContainer>
-
-                                {productDetails.reviews && productDetails.reviews.length > 0 ? (
-                                    <ReviewContainer>
-                                        {productDetails.reviews.map((review, index) => (
-                                            <ReviewCard key={index}>
-                                                <ReviewCardDivision>
-                                                    <Avatar sx={{ width: "60px", height: "60px", marginRight: "1rem", backgroundColor: generateRandomColor(review._id) }}>
-                                                        {String(review.reviewer.name).charAt(0)}
-                                                    </Avatar>
-                                                    <ReviewDetails>
-                                                        <Typography variant="h6">{review.reviewer.name}</Typography>
-                                                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-
-                                                            <Typography variant="body2">
-                                                                {timeAgo(review.date)}
-                                                            </Typography>
-                                                        </div>
-                                                        <Typography variant="subtitle1">Rating: {review.rating}</Typography>
-                                                        <Typography variant="body1">{review.comment}</Typography>
-                                                    </ReviewDetails>
-                                                    {review.reviewer._id === reviewer &&
-                                                        <>
-                                                            <IconButton onClick={handleOpenMenu} sx={{ width: "4rem", color: 'inherit', p: 0 }}>
-                                                                <MoreVert sx={{ fontSize: "2rem" }} />
-                                                            </IconButton>
-                                                            <Menu
-                                                                id="menu-appbar"
-                                                                anchorEl={anchorElMenu}
-                                                                anchorOrigin={{
-                                                                    vertical: 'bottom',
-                                                                    horizontal: 'left',
-                                                                }}
-                                                                keepMounted
-                                                                transformOrigin={{
-                                                                    vertical: 'top',
-                                                                    horizontal: 'left',
-                                                                }}
-                                                                open={Boolean(anchorElMenu)}
-                                                                onClose={handleCloseMenu}
-                                                                onClick={handleCloseMenu}
-                                                            >
-                                                                <MenuItem onClick={() => {
-                                                                    handleCloseMenu()
-                                                                }}>
-                                                                    <Typography textAlign="center">Edit</Typography>
-                                                                </MenuItem>
-                                                                <MenuItem onClick={() => {
-                                                                    deleteHandler(review._id)
-                                                                    handleCloseMenu()
-                                                                }}>
-                                                                    <Typography textAlign="center">Delete</Typography>
-                                                                </MenuItem>
-                                                            </Menu>
-                                                        </>
-                                                    }
-                                                </ReviewCardDivision>
-                                            </ReviewCard>
-                                        ))}
-                                    </ReviewContainer>
-                                )
-                                    :
-                                    <ReviewWritingContainer>
-                                        <Typography variant="h6">No Reviews Found. Add a review.</Typography>
-                                    </ReviewWritingContainer>
-                                }
-                            </>
+                            }
+                        </>
                     }
                 </>
             }
@@ -171,7 +161,6 @@ const ProductContainer = styled.div`
 
 const ProductImage = styled.img`
     max-width: 300px;
-    /* width: 50%; */
     margin-bottom: 20px;
 `;
 
@@ -226,7 +215,7 @@ const ReviewWritingContainer = styled.div`
     gap: 2rem;
     justify-content: center;
     align-items: center;
-    flex-direction:column;
+    flex-direction: column;
 `;
 
 const ReviewContainer = styled.div`
