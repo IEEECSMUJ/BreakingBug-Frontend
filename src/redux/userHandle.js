@@ -162,8 +162,8 @@ export const getProductDetails = (id) => async (dispatch) => {
         dispatch(getError(error));
     }
 }
-
-export const getCustomers = (id) => async (dispatch) => {
+// The 'address' parameter is now added to this function
+export const getCustomers = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {

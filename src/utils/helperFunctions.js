@@ -13,7 +13,7 @@ export const timeAgo = (date) => {
         const hours = Math.floor(timeDifference / 3600000);
         return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
     } else {
-        return `on ${reviewDate.toLocaleDateString(undefined, options)}`;
+        return `on ${new Date(date).toLocaleDateString(undefined, options)}`;
     }
 };
 
