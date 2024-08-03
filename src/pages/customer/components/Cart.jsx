@@ -43,7 +43,8 @@ const Cart = ({ setIsCartOpen }) => {
 
     const productBuyingHandler = (id) => {
         console.log(currentUser);
-        dispatch(updateCurrentUser(currentUser, currentUser._id));  // **Updated to use updateCurrentUser**
+        // **Updated to use updateCurrentUser**
+        dispatch(updateCurrentUser(currentUser, currentUser._id));  
         setIsCartOpen(false);
         navigate(`/product/buy/${id}`);
     };
