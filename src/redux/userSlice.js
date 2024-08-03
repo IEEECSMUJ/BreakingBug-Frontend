@@ -299,6 +299,7 @@ export const {
     getProductsFailed,
     getSellerProductsFailed,
     getProductDetailsFailed,
+    getCustomersListFailed,
     getFailed,
     getError,
     getSearchFailed,
