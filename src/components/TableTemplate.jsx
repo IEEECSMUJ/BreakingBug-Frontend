@@ -24,7 +24,7 @@ const TableTemplate = ({columns, rows}) => {
           </StyledTableRow>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page == rowsPerPage + rowsPerPage)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // **Fixed slicing logic**
               .map((row) => {
                 return (
                   <StyledTableRow hover role="checkbox" tabIndex={+1} key={row.Id}>
