@@ -31,7 +31,7 @@ const TableTemplate = ({columns, rows}) => {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <StyledTableCell key={column.Id} align={column.align}>
+                        <StyledTableCell key={column.id} align={column.align}> {/* Fixed key and column.id */}
                           {
                             column.format && typeof value === 'number'
                               ? column.format(id)
