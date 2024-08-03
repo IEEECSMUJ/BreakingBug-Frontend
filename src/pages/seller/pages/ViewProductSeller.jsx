@@ -92,6 +92,9 @@ const ViewProductSeller = () => {
     dispatch(deleteStuff(productID, "deleteAllProductReviews"))
   }
 
+  const buttonText = showTab ? "Hide Details" : "Edit Product";   //added definition of buttonText based on showTab
+
+
   useEffect(() => {
     if (status === "updated" || status === "deleted") {
       setLoader(false);

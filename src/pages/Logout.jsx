@@ -19,7 +19,7 @@ const Logout = () => {
   }, [currentRole, currentUser, dispatch])
 
   const handleLogout = () => {
-    dispatch(authLogout());     //dispatch logout action here us , use of import file authlog
+    dispatch(authLogout());     //dispatch logout action here, use of import file authlog
     navigate('/');
   };
 
