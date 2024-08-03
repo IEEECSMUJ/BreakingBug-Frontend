@@ -14,7 +14,7 @@ const Products = ({}) => {
 
   const itemsPerPage = 9;
 
-  const { currentRole, responseSearch } = useSelector((state) => state.user); // **Corrected useSelector to select from the state**
+  const { currentRole, productData } = useSelector((state) => state.user); // **Corrected useSelector to select from the state**
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
