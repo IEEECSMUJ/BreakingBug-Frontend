@@ -5,8 +5,10 @@ import {
     tableCellClasses,
     Drawer as MuiDrawer,
     AppBar as MuiAppBar,
+    Button,
 } from "@mui/material";
 import { Link } from "react-scroll";
+import { LightPurpleButton } from "./buttonStyles";
 
 const drawerWidth = 240
 
@@ -77,3 +79,4 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 
 export const NavLogo = styled(Link)`
     display: flex;
 `;
+
