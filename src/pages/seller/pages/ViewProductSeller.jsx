@@ -283,8 +283,8 @@ const ViewProductSeller = () => {
 
                   {productDetails.reviews && productDetails.reviews.length > 0 &&
                     <DarkRedButton onClick={() => {
-                      setDialog("Do you want to delete all notices ?")
-                      setShowDialog(true)
+                      setDialog("Do you want to delete all reviews?"); {/* Fixed dialog message */}
+                      setShowDialog(true);
                     }}>
                       Remove All Reviews
                     </DarkRedButton>}
