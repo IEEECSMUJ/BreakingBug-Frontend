@@ -2,7 +2,7 @@ export const timeAgo = (date) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     
     const today = new Date();
-    const timeDifference = today - reviewDate;
+    const timeDifference = today - new Date(date); // Fixed the undefined 'reviewDate' issue
 
     if (timeDifference < 60000) {
         return 'just now';
