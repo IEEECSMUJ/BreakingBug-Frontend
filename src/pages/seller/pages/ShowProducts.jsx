@@ -10,6 +10,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import UploadIcon from '@mui/icons-material/Upload';
 import AlertDialogSlide from '../../../components/AlertDialogSlide';
 
+// Import Box and Grid from MUI
+import { Box, Grid } from '@mui/material';
+
 const ShowProducts = () => {
   const dispatch = useDispatch();
 

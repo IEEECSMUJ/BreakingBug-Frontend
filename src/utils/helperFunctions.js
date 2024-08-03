@@ -2,7 +2,7 @@ export const timeAgo = (date) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     
     const today = new Date();
-    const timeDifference = today - reviewDate;
+    const timeDifference = today - new Date(date); // Fixed the undefined 'reviewDate' issue
 
     if (timeDifference < 60000) {
         return 'just now';
@@ -13,7 +13,7 @@ export const timeAgo = (date) => {
         const hours = Math.floor(timeDifference / 3600000);
         return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
     } else {
-        return `on ${reviewDate.toLocaleDateString(undefined, options)}`;
+        return `on ${new Date(date).toLocaleDateString(undefined, options)}`;
     }
 };
 

@@ -38,7 +38,7 @@ const Navbar = () => {
             console.log(currentUser);
             dispatch(updateCustomer(currentUser, currentUser._id));
         }
-    }, [currentRole, currentUser, dispatch, ancorElNav])
+    }, [currentRole, currentUser, dispatch, anchorElNav])   // corrected typo error as anchor instead ancor
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -49,13 +49,14 @@ const Navbar = () => {
 
     const [isCartOpen, setIsCartOpen] = React.useState(false);
 
-    // Cart
-    const handleOpen Cart = () => {
-        setIsCartOpen(true);
-    };
-
+    
     const handleOpenCart = () => {
-        setIsCartOpen(false);
+      setIsCartOpen(true);
+    };
+  
+    
+    const handleCloseCart = () => {
+      setIsCartOpen(false);
     };
 
     // Navigation Menu

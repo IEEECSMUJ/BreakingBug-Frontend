@@ -6,6 +6,9 @@ const AlertDialogSlide = ({ dialog, showDialog, setShowDialog }) => {
     const handleClose = () => {
         setShowDialog(false);
     };
+    const taskHandler = () => {              // defining the taskHandler function;
+        setShowDialog(false);
+    };
     return (
         <Dialog
             open={showDialog}

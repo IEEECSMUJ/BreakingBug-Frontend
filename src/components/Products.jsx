@@ -10,17 +10,18 @@ import { addStuff } from '../redux/userHandle';
 
 const Products = ({}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // **Added the useNavigate hook to define `navigate`**
 
   const itemsPerPage = 9;
 
-  const { currentRole, responseSearch } = useSelector();
+  const { currentRole, productData } = useSelector((state) => state.user); // **Corrected useSelector to select from the state**
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem + itemsPerPage;
-  const currentItems = (indexOfFirstItem, indexOfLastItem);
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage; // **Fixed the calculation for indexOfFirstItem**
+  const currentItems = productData.slice(indexOfFirstItem, indexOfLastItem); // **Updated to use productData for currentItems**
 
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
@@ -39,7 +40,7 @@ const Products = ({}) => {
     setShowPopup(true)
   };
 
-  if (!responseSearch) {
+  if (!productData || productData.length === 0) { // **Added check for empty productData**
     return <div>Product not found</div>;
   }
 

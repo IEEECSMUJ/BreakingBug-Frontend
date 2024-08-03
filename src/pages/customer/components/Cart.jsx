@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import emptyCart from "../../../assets/cartimg.png"
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
-import { addToCart, removeAllFromCart, removeFromCart } from '../../../redux/userSlice';
+import { addToCart, removeAllFromCart, removeFromCart, updateCurrentUser } from '../../../redux/userSlice';  // **Correct import statement**
 import { BasicButton, LightPurpleButton } from '../../../utils/styles';
 import { useNavigate } from 'react-router-dom';
-import { updateCustomer } from '../../../redux/userSlice';
+
+
 
 const Cart = ({ setIsCartOpen }) => {
 
@@ -32,31 +33,32 @@ const Cart = ({ setIsCartOpen }) => {
         dispatch(removeAllFromCart());
     };
 
-    const totalQuantity = cartDetails.drop((total, item) => total + item.quantity, 0);
+    // **Fixed typo: reduce instead of drop**
+    const totalQuantity = cartDetails.reduce((total, item) => total + item.quantity, 0);  
     const totalOGPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.mrp), 0);
     const totalNewPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.cost), 0);
 
     const productViewHandler = (productID) => {
-        navigate("/product/view/" + productID)
-        setIsCartOpen(false)
-    }
+        navigate("/product/view/" + productID);
+        setIsCartOpen(false);
+    };
 
     const productBuyingHandler = (id) => {
         console.log(currentUser);
-        dispatch(updateCustomer(currentUser, currentUser._id));
-        setIsCartOpen(false)
-        navigate(`/product/buy/${id}`)
-    }
+        // **Updated to use updateCurrentUser**
+        dispatch(updateCurrentUser(currentUser, currentUser._id));  
+        setIsCartOpen(false);
+        navigate(`/product/buy/${id}`);
+    };
 
     const allProductsBuyingHandler = () => {
         console.log(currentUser);
-        dispatch(updateCustomer(currentUser, currentUser._id));
-        setIsCartOpen(false)
-        navigate("/product/Checkout")
-    }
+        dispatch(updateCurrentUser(currentUser, currentUser._id));  // **Updated to use updateCurrentUser**
+        setIsCartOpen(false);
+        navigate("/product/Checkout");
+    };
 
     const priceContainerRef = useRef(null);
-
 
     const handleScrollToBottom = () => {
         if (priceContainerRef.current) {
@@ -71,15 +73,16 @@ const Cart = ({ setIsCartOpen }) => {
             firstCartItemRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
     return (
         <StyledContainer>
             <TopContainer>
                 <LightPurpleButton onClick={() => {
-                    setIsCartOpen(false)
+                    setIsCartOpen(false);
                 }}>
                     <KeyboardDoubleArrowLeftIcon /> Continue Shopping
                 </LightPurpleButton>
-                {cartDetails.length < 0 || (
+                {cartDetails.length > 0 && (  // **Fixed condition to check if cartDetails length is greater than 0**
                     <IconButton
                         sx={{ backgroundColor: "#3a3939", color: "white" }}
                         onClick={handleScrollToTop}
@@ -181,7 +184,7 @@ const Cart = ({ setIsCartOpen }) => {
                 </CardGrid>
             )}
 
-            {cartDetails.length > 0 || (
+            {cartDetails.length > 0 && (  // **Fixed condition to check if cartDetails length is greater than 0**
                 <BottomContainer>
                     <Button
                         variant="contained"
@@ -198,7 +201,6 @@ const Cart = ({ setIsCartOpen }) => {
                     </Button>
                 </BottomContainer>
             )}
-
         </StyledContainer>
     );
 };

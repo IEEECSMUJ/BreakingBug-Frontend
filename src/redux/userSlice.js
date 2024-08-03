@@ -299,6 +299,7 @@ export const {
     getProductsFailed,
     getSellerProductsFailed,
     getProductDetailsFailed,
+    getCustomersListFailed,   // adding getCustomersListFailed
     getFailed,
     getError,
     getSearchFailed,
@@ -311,6 +312,7 @@ export const {
     removeAllFromCart,
     fetchProductDetailsFromCart,
     updateCurrentUser,
+    setFilteredProducts,
     
 } = userSlice.actions;
 

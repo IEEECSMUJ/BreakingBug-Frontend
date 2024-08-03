@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 const SideBar = () => {
 
-    
+    const location = useLocation(); //Use the useLocation hook to get the current path
 
     const { currentRole } = useSelector(state => state.user);
 
