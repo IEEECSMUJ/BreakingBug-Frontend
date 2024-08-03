@@ -27,7 +27,7 @@ const TableTemplate = ({columns, rows}) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) // **Fixed slicing logic**
               .map((row) => {
                 return (
-                  <StyledTableRow hover role="checkbox" tabIndex={+1} key={row.Id}>
+                  <StyledTableRow hover role="checkbox" tabIndex={-1} key={row.Id}> {/* Fixed tabIndex value */}
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
