@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { authLogout } from '../redux/userSlice';
-import styled from 'styled-components';
-import { updateCustomer } from '../redux/userHandle';
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { authLogout } from "../redux/userSlice";
+import styled from "styled-components";
+import { updateCustomer } from "../redux/userHandle";
 
 const Logout = () => {
-  const { currentUser, currentRole } = useSelector(state => state.user);
+  const { currentUser, currentRole } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -16,11 +16,11 @@ const Logout = () => {
       console.log(currentUser);
       dispatch(updateCustomer(currentUser));
     }
-  }, [currentRole, currentUser, dispatch])
+  }, [currentRole, currentUser, dispatch]);
 
   const handleLogout = () => {
-   
-    navigate('/');
+    authLogout(currentUser);
+    navigate("/");
   };
 
   const handleCancel = () => {
