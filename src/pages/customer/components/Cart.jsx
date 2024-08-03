@@ -31,7 +31,8 @@ const Cart = ({ setIsCartOpen }) => {
         dispatch(removeAllFromCart());
     };
 
-    const totalQuantity = cartDetails.reduce((total, item) => total + item.quantity, 0);  // **Fixed typo: reduce instead of drop**
+    // **Fixed typo: reduce instead of drop**
+    const totalQuantity = cartDetails.reduce((total, item) => total + item.quantity, 0);  
     const totalOGPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.mrp), 0);
     const totalNewPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.cost), 0);
 
