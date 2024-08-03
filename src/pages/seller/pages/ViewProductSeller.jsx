@@ -139,7 +139,7 @@ const ViewProductSeller = () => {
                   <GreenButton
                     onClick={() => setShowTab(!showTab)}
                   >
-                    {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}{buttonText}
+                    {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />} {/* Fixed button text */}
                   </GreenButton>
                 </ButtonContainer>
 
