@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import {Table, TableBody, TableCell, TableContainer, TableRow, styled} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableRow, styled, tableCellClasses } from '@mui/material'; // **Added tableCellClasses import**
+
 
 const TableTemplate = ({columns, rows}) => {
   const [page, setPage] = useState(0);
