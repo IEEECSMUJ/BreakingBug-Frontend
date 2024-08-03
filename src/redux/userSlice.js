@@ -10,7 +10,6 @@ const initialState = {
   isLoggedIn: false,
   error: null,
   response: null,
-
   responseReview: null,
   responseProducts: null,
   responseSellerProducts: null,
@@ -18,7 +17,6 @@ const initialState = {
   responseDetails: null,
   responseSearch: null,
   responseCustomersList: null,
-
   productData: [],
   sellerProductData: [],
   specificProductData: [],
@@ -36,10 +34,7 @@ const updateCartDetailsInLocalStorage = (cartDetails) => {
 
 export const updateShippingDataInLocalStorage = (shippingData) => {
   const currentUser = JSON.parse(localStorage.getItem("user")) || {};
-  const updatedUser = {
-    ...currentUser,
-    shippingData: shippingData,
-  };
+  const updatedUser = { ...currentUser, shippingData };
   localStorage.setItem("user", JSON.stringify(updatedUser));
 };
 
@@ -66,7 +61,7 @@ const userSlice = createSlice({
     },
     updateFailed: (state, action) => {
       state.status = "failed";
-      state.responseReview = action.payload;
+      state.responseReview = action.payload.message; // Store only message
       state.error = null;
     },
     updateCurrentUser: (state, action) => {
@@ -145,13 +140,13 @@ const userSlice = createSlice({
 
     authFailed: (state, action) => {
       state.status = "failed";
-      state.response = action.payload;
+      state.response = action.payload.message; // Store only message
       state.error = null;
     },
     authError: (state, action) => {
       state.status = "error";
       state.response = null;
-      state.error = action.payload;
+      state.error = action.payload.message; // Store only message
     },
     authLogout: (state) => {
       localStorage.removeItem("user");
@@ -166,17 +161,21 @@ const userSlice = createSlice({
     },
 
     isTokenValid: (state) => {
-      const decodedToken = jwtDecode(state.currentToken);
       if (state.currentToken) {
-        state.isLoggedIn = true;
+        try {
+          const decodedToken = jwtDecode(state.currentToken);
+          state.isLoggedIn = !!decodedToken;
+        } catch (e) {
+          state.isLoggedIn = false;
+          localStorage.removeItem("user");
+          state.currentUser = null;
+          state.currentRole = null;
+          state.currentToken = null;
+          state.status = "idle";
+          state.response = null;
+          state.error = null;
+        }
       } else {
-        localStorage.removeItem("user");
-        state.currentUser = null;
-        state.currentRole = null;
-        state.currentToken = null;
-        state.status = "idle";
-        state.response = null;
-        state.error = null;
         state.isLoggedIn = false;
       }
     },
@@ -185,13 +184,13 @@ const userSlice = createSlice({
       state.loading = true;
     },
     getFailed: (state, action) => {
-      state.response = action.payload;
+      state.response = action.payload.message; // Store only message
       state.loading = false;
       state.error = null;
     },
     getError: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.message; // Store only message
     },
 
     getDeleteSuccess: (state) => {
@@ -208,7 +207,7 @@ const userSlice = createSlice({
       state.error = null;
     },
     getProductsFailed: (state, action) => {
-      state.responseProducts = action.payload;
+      state.responseProducts = action.payload.message; // Store only message
       state.loading = false;
       state.error = null;
     },
@@ -220,7 +219,7 @@ const userSlice = createSlice({
       state.error = null;
     },
     getSellerProductsFailed: (state, action) => {
-      state.responseSellerProducts = action.payload;
+      state.responseSellerProducts = action.payload.message; // Store only message
       state.loading = false;
       state.error = null;
     },
@@ -232,7 +231,7 @@ const userSlice = createSlice({
       state.error = null;
     },
     getSpecificProductsFailed: (state, action) => {
-      state.responseSpecificProducts = action.payload;
+      state.responseSpecificProducts = action.payload.message; // Store only message
       state.loading = false;
       state.error = null;
     },
@@ -244,7 +243,7 @@ const userSlice = createSlice({
       state.error = null;
     },
     getProductDetailsFailed: (state, action) => {
-      state.responseDetails = action.payload;
+      state.responseDetails = action.payload.message; // Store only message
       state.loading = false;
       state.error = null;
     },
@@ -257,7 +256,7 @@ const userSlice = createSlice({
     },
 
     getCustomersListFailed: (state, action) => {
-      state.responseCustomersList = action.payload;
+      state.responseCustomersList = action.payload.message; // Store only message
       state.loading = false;
       state.error = null;
     },
@@ -269,7 +268,7 @@ const userSlice = createSlice({
       state.error = null;
     },
     getSearchFailed: (state, action) => {
-      state.responseSearch = action.payload;
+      state.responseSearch = action.payload.message; // Store only message
       state.loading = false;
       state.error = null;
     },

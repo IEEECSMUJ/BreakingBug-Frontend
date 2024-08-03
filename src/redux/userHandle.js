@@ -139,7 +139,7 @@ export const getProducts = () => async (dispatch) => {
 
   try {
     const result = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/getProducts`
+      `${process.env.REACT_APP_BASE_URL}/Products`
     );
     if (result.data.message) {
       dispatch(getProductsFailed(result.data.message));
