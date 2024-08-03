@@ -43,7 +43,7 @@ export const updateShippingDataInLocalStorage = (shippingData) => {
     localStorage.setItem('user', JSON.stringify(updatedUser));
 };
 
-const userSlice = createSlice({
+export const userSlice = createSlice({   //added export 
     name: 'user',
     initialState,
     reducers: {
@@ -311,6 +311,9 @@ export const {
     removeAllFromCart,
     fetchProductDetailsFromCart,
     updateCurrentUser,
+    getCustomersListFailed, //added this
+    setFilteredProducts, //added this
+
     
 } = userSlice.actions;
 

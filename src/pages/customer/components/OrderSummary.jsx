@@ -22,7 +22,7 @@ const OrderSummary = ({ handleNext, handleBack }) => {
         if (productID) {
             dispatch(fetchProductDetailsFromCart(productID));
         }else
-            return(handleNext)
+            handleNext();           //removed return statement here
     }, [productID, dispatch]);
 
     let cartDetails = currentUser.cartDetails;
@@ -93,7 +93,8 @@ const OrderSummary = ({ handleNext, handleBack }) => {
                         <ListItem sx={{ py: 1, px: 0 }}>
                             <ListItemText primary="Discount" />
                             <Typography variant="subtitle1" sx={{ color: "green" }}>
-                                ₹{totalamount - totalNewPrice}
+                                ₹{totalOGPrice  - totalNewPrice}             {/* totalOGPrice?? seriously?? */}         
+                               
                             </Typography>
                         </ListItem>
                         <ListItem sx={{ py: 1, px: 0 }}>

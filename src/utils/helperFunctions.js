@@ -1,4 +1,6 @@
-export const timeAgo = (date) => {
+
+
+export const timeAgo = (date, reviewDate) => {          //added reviewDate as a parameter
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     
     const today = new Date();

@@ -15,7 +15,7 @@ import { ChartDatabyYear } from '../../../utils/chartData';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const SalesChart = ({  }) => {
+const SalesChart = ({ type }) => { //added type prop
 
     const navigate = useNavigate();
 

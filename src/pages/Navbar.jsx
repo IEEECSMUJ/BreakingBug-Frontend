@@ -50,14 +50,12 @@ const Navbar = () => {
     const [isCartOpen, setIsCartOpen] = React.useState(false);
 
     // Cart
-    const handleOpen Cart = () => {
+    const handleOpenCart = () => {  //space error
         setIsCartOpen(true);
     };
 
-    const handleOpenCart = () => {
-        setIsCartOpen(false);
-    };
-
+    //removed extra handleopencart
+    
     // Navigation Menu
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
