@@ -78,3 +78,12 @@ export const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 
 export const NavLogo = styled(Link)`
     display: flex;
 `;
+
+ // **Define and export BasicButton**
+export const BasicButton = styled(Button)`
+background-color: #8E24AA;
+color: white;
+&:hover {
+  background-color: #7B1FA2;
+}
+`;
