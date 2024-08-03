@@ -11,7 +11,7 @@ const CustomerSearch = ({ mode }) => {
 
     const { filteredProducts } = useSelector(state => state.user);
 
-    // Debugging: Updated handleSearch to use event parameter and call preventDefault
+    // Updated handleSearch to use event parameter and call preventDefault
     const handleSearch = (event) => {
         event.preventDefault(); // Prevent the default form submission behavior
 
