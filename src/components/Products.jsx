@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Container, Grid, Pagination } from '@mui/material';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,81 +8,97 @@ import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import { addStuff } from '../redux/userHandle';
 
-const Products = () => {
+const Products = ({ productData }) => {
   const dispatch = useDispatch();
+  //<------15TH BUG --------->
+  // USING useNavigate hook
   const navigate = useNavigate();
 
-  const itemsPerPage = 9;
+  const itemsPerPage = 5;
+  // <----------FIXED THE 41TH BUG ----------->
+  // using useeffect to rerender the products page logic when the page is changed
 
-  // Get data from the Redux store
-  const { currentRole, responseSearch } = useSelector((state) => ({
-    currentRole: state.user.currentRole,
-    responseSearch: state.products?.responseSearch || [], // Ensure responseSearch is defined
-  }));
-
+  const { currentRole} = useSelector(state => state.user);
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
+  const [currentItems, setCurrentItems] = useState([]);
+  
+// <--------FIXED THE 40TH BUG ------>
+// FIXED THE LOGIC TO CALCULATE PAGING AND SLICING PRODUCTS
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = productData.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Pagination calculations
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = responseSearch.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Handle adding to cart
+  useEffect(() => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    setCurrentItems(productData.slice(indexOfFirstItem, indexOfLastItem));
+  }, [currentPage, productData]);
+
+
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
     dispatch(addToCart(product));
   };
 
-  // Handle uploading a product
   const handleUpload = (event, product) => {
     event.stopPropagation();
+    console.log(product);
     dispatch(addStuff("ProductCreate", product));
   };
 
-  // Handle showing the login message
   const messageHandler = (event) => {
     event.stopPropagation();
     setMessage("You have to login or register first");
-    setShowPopup(true);
+    setShowPopup(true)
   };
 
-  // Show a message if no products are found
-  if (!responseSearch.length) {
-    return <div>No products found</div>;
+  
+
+  
+      {/* <------16TH BUG FIXED --------------> */}
+      {/* REPLACE  responseSearch from productData */}
+  if (!productData || productData.length === 0) {
+    return <div>Product not found</div>;
   }
 
   return (
     <>
       <ProductGrid container spacing={3}>
-        {currentItems.map((data) => (
+        {currentItems.map((data, index) => (
           <Grid item xs={12} sm={6} md={4}
-            key={data._id}
+            key={index}
             onClick={() => navigate("/product/view/" + data._id)}
             sx={{ cursor: "pointer" }}
           >
             <ProductContainer>
-              <ProductImage src={data.productImage} alt={data.productName} />
+              <ProductImage src={data.productImage} />
               <ProductName>{data.productName}</ProductName>
-              <PriceMrp>₹{data.price.mrp}</PriceMrp>
+              <PriceMrp>{data.price.mrp}</PriceMrp>
               <PriceCost>₹{data.price.cost}</PriceCost>
               <PriceDiscount>{data.price.discountPercent}% off</PriceDiscount>
               <AddToCart>
                 {currentRole === "Customer" &&
-                  <BasicButton
-                    onClick={(event) => handleAddToCart(event, data)}
-                  >
-                    Add To Cart
-                  </BasicButton>
+                  <>
+                    <BasicButton
+                      onClick={(event) => handleAddToCart(event, data)}
+                    >
+                      Add To Cart
+                    </BasicButton>
+                  </>
                 }
                 {currentRole === "Shopcart" &&
-                  <BasicButton
-                    onClick={(event) => handleUpload(event, data)}
-                  >
-                    Upload
-                  </BasicButton>
+                  <>
+                    <BasicButton
+                      onClick={(event) => handleUpload(event, data)}
+                    >
+                      Upload
+                    </BasicButton>
+                  </>
                 }
+
               </AddToCart>
             </ProductContainer>
           </Grid>
@@ -90,17 +106,20 @@ const Products = () => {
       </ProductGrid>
 
       <Container sx={{ mt: 10, mb: 10, display: "flex", justifyContent: 'center', alignItems: "center" }}>
+
+
         <Pagination
-          count={Math.ceil(responseSearch.length / itemsPerPage)}
+          count={Math.ceil(productData.length / itemsPerPage)}
           page={currentPage}
           onChange={(event, value) => setCurrentPage(value)}
           color="secondary"
+
         />
       </Container>
 
       <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
     </>
-  );
+  )
 };
 
 export default Products;

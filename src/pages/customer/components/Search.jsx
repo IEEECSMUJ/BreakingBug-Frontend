@@ -6,16 +6,21 @@ import { useDispatch } from 'react-redux';
 import { getSearchedProducts } from '../../../redux/userHandle';
 
 const Search = () => {
-    const navigate = useNavigate();
+
+    const navigate = useNavigate()
+
     const dispatch = useDispatch();
+
     const location = useLocation();
-    const [searchTerm, setSearchTerm] = useState("");
+
+    const [searchTerm, setSearchTerm] = useState("")
 
     const handleSearch = () => {
-        if (searchTerm.trim()) { // Ensure searchTerm is not empty
-            dispatch(getSearchedProducts("searchProduct", searchTerm));
+        dispatch(getSearchedProducts("searchProduct", searchTerm));
 
-            // Navigate to the search results page
+  //-------->FIXED 42TH BUG <----------//
+
+        if (location.pathname !== "/ProductSearch") {
             navigate("/ProductSearch");
         }
     };
@@ -25,19 +30,28 @@ const Search = () => {
             <InputSearchBase
                 placeholder="Search for products, brands and more"
                 value={searchTerm}
+                // fixed 24th bug 
+                //replace etargetvalue to e.target.value
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
+                    // fixed 25th bug 
+                //replace eKey  to e.Key
+                    if (e.key === 'Enter')  ///FIXED 43RD BUG
+                     {
                         handleSearch();
                     }
                 }}
             />
-            <SearchIconWrapper>
+
+            {/* //---->fixed 44th bug -------> */}
+            
+            <SearchIconWrapper onClick={handleSearch}>
+
                 <SearchIcon sx={{ color: "#4d1c9c" }} />
             </SearchIconWrapper>
         </SearchContainer>
-    );
-};
+    )
+}
 
 const SearchContainer = styled(Box)`
   border-radius: 2px;

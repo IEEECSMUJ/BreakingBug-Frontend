@@ -1,17 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './userSlice';
+import { userReducer } from './userSlice';
 
 const store = configureStore({
-    reducer: {
+
+ /// ------> 8TH BUG <-----//
+ // FIX(REPLACE = FROM :) 
+
+    reducer :{
         user: userReducer,
-    },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: ['user/getError', 'user/getFailed'],
-                ignoredPaths: ['user.error'],
-            },
-        }),
+    }
 });
 
 export default store;

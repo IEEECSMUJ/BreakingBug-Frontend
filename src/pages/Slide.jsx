@@ -1,15 +1,21 @@
 import { Divider, Box, Typography, Button, styled, Container } from '@mui/material';
+                   // THIRD BUG
+// PREVIOUSLY IMPORT WAS FROM REACT ROUTER
+// NOW FIXED IT TO REACT ROUTER DOM
+
 import { Link, useNavigate } from 'react-router-dom';
+
 import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
 
 const Slide = ({ products, title }) => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     return (
         <Component>
             <Deal>
                 <DealText>{title}</DealText>
+
                 <ViewAllButton
                     variant="contained"
                     onClick={() => { navigate("/Products") }}

@@ -10,8 +10,9 @@ import styled from 'styled-components';
 import Popup from '../components/Popup';
 
 const AuthenticationPage = ({ mode, role }) => {
-
-    const bgpic = "https://images.pexels.com/photos/1121097/pexels-photo-1121097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    //<--------fixed the 38th bug------->
+    // bgpic ----->bgPic
+    const bgPic = "https://images.pexels.com/photos/1121097/pexels-photo-1121097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -30,7 +31,14 @@ const AuthenticationPage = ({ mode, role }) => {
 
     const handleSubmit = (event) => {
 
-        let email, password;
+        //<---------46th bug fixed -------->
+        // Prevents the default form submission behavior
+        event.preventDefault();
+        
+        // <---------FIXED 47TH BUG ------>
+        // let email, password; --->FIXED
+        const email = event.target.email.value;
+        const password = event.target.password.value;
 
         if (!password) {
             if (!email) setEmailError(true);
@@ -247,7 +255,7 @@ const AuthenticationPage = ({ mode, role }) => {
                     sm={4}
                     md={7}
                     sx={{
-                        backgroundImage: `url(${bgpic})`,
+                        backgroundImage: `url(${bgPic})`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

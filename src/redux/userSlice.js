@@ -10,6 +10,7 @@ const initialState = {
     isLoggedIn: false,
     error: null,
     response: null,
+
     responseReview: null,
     responseProducts: null,
     responseSellerProducts: null,
@@ -17,6 +18,7 @@ const initialState = {
     responseDetails: null,
     responseSearch: null,
     responseCustomersList: null,
+
     productData: [],
     sellerProductData: [],
     specificProductData: [],
@@ -26,20 +28,22 @@ const initialState = {
     customersList: [],
 };
 
-// Helper function
 const updateCartDetailsInLocalStorage = (cartDetails) => {
     const currentUser = JSON.parse(localStorage.getItem('user')) || {};
     currentUser.cartDetails = cartDetails;
     localStorage.setItem('user', JSON.stringify(currentUser));
 };
 
-const updateShippingDataInLocalStorage = (shippingData) => {
+export const updateShippingDataInLocalStorage = (shippingData) => {
     const currentUser = JSON.parse(localStorage.getItem('user')) || {};
-    const updatedUser = { ...currentUser, shippingData: shippingData };
+    const updatedUser = {
+        ...currentUser,
+        shippingData: shippingData
+    };
     localStorage.setItem('user', JSON.stringify(updatedUser));
 };
 
-const userSlice = createSlice({
+ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -83,18 +87,21 @@ const userSlice = createSlice({
             const existingProduct = state.currentUser.cartDetails.find(
                 (cartItem) => cartItem._id === action.payload._id
             );
+
             if (existingProduct) {
                 existingProduct.quantity += 1;
             } else {
                 const newCartItem = { ...action.payload };
                 state.currentUser.cartDetails.push(newCartItem);
             }
+
             updateCartDetailsInLocalStorage(state.currentUser.cartDetails);
         },
         removeFromCart: (state, action) => {
             const existingProduct = state.currentUser.cartDetails.find(
                 (cartItem) => cartItem._id === action.payload._id
             );
+
             if (existingProduct) {
                 if (existingProduct.quantity > 1) {
                     existingProduct.quantity -= 1;
@@ -107,29 +114,39 @@ const userSlice = createSlice({
                     }
                 }
             }
+
             updateCartDetailsInLocalStorage(state.currentUser.cartDetails);
         },
+
         removeSpecificProduct: (state, action) => {
             const productIdToRemove = action.payload;
             state.currentUser.cartDetails = state.currentUser.cartDetails.filter(
               (cartItem) => cartItem._id !== productIdToRemove
+
             );
-        },
+
+            
+          },
+        
+
         fetchProductDetailsFromCart: (state, action) => {
             const productIdToFetch = action.payload;
             const productInCart = state.currentUser.cartDetails.find(
                 (cartItem) => cartItem._id === productIdToFetch
             );
+
             if (productInCart) {
                 state.productDetailsCart = { ...productInCart };
             } else {
                 state.productDetailsCart = null;
             }
         },
+
         removeAllFromCart: (state) => {
             state.currentUser.cartDetails = [];
             updateCartDetailsInLocalStorage([]);
         },
+
         authFailed: (state, action) => {
             state.status = 'failed';
             state.response = action.payload;
@@ -151,24 +168,20 @@ const userSlice = createSlice({
             state.response = true;
             state.isLoggedIn = false;
         },
+
         isTokenValid: (state) => {
-            try {
-                if (state.currentToken) {
+            //<---fixed the 36th bug ---->
+            // check that token is present before decoding it
+            if (state.currentToken) { 
+
+
+                //---->fixed 37th bug------>
+                // added try catch blocks for error handelling
+                try{
                     const decodedToken = jwtDecode(state.currentToken);
-                    if (decodedToken.exp > Date.now() / 1000) {
-                        state.isLoggedIn = true;
-                    } else {
-                        state.isLoggedIn = false;
-                        localStorage.removeItem('user');
-                        state.currentUser = null;
-                        state.currentRole = null;
-                        state.currentToken = null;
-                        state.status = 'idle';
-                        state.response = null;
-                        state.error = null;
-                    }
-                } else {
-                    state.isLoggedIn = false;
+                    state.isLoggedIn = true;
+                } catch(error){
+                    console.error("Token decoding failed:", error);
                     localStorage.removeItem('user');
                     state.currentUser = null;
                     state.currentRole = null;
@@ -176,9 +189,10 @@ const userSlice = createSlice({
                     state.status = 'idle';
                     state.response = null;
                     state.error = null;
+                    state.isLoggedIn = false;
                 }
-            } catch (error) {
-                state.isLoggedIn = false;
+            }       
+                else {
                 localStorage.removeItem('user');
                 state.currentUser = null;
                 state.currentRole = null;
@@ -186,8 +200,10 @@ const userSlice = createSlice({
                 state.status = 'idle';
                 state.response = null;
                 state.error = null;
+                state.isLoggedIn = false;
             }
         },
+
         getRequest: (state) => {
             state.loading = true;
         },
@@ -200,12 +216,14 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
+
         getDeleteSuccess: (state) => {
             state.status = 'deleted';
             state.loading = false;
             state.error = null;
             state.response = null;
         },
+
         productSuccess: (state, action) => {
             state.productData = action.payload;
             state.responseProducts = null;
@@ -217,6 +235,7 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
+
         sellerProductSuccess: (state, action) => {
             state.sellerProductData = action.payload;
             state.responseSellerProducts = null;
@@ -228,6 +247,7 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
+
         specificProductSuccess: (state, action) => {
             state.specificProductData = action.payload;
             state.responseSpecificProducts = null;
@@ -239,6 +259,7 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
+
         productDetailsSuccess: (state, action) => {
             state.productDetails = action.payload;
             state.responseDetails = null;
@@ -250,17 +271,20 @@ const userSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
+
         customersListSuccess: (state, action) => {
             state.customersList = action.payload;
             state.responseCustomersList = null;
             state.loading = false;
             state.error = null;
         },
+
         getCustomersListFailed: (state, action) => {
             state.responseCustomersList = action.payload;
             state.loading = false;
             state.error = null;
         },
+
         setFilteredProducts: (state, action) => {
             state.filteredProducts = action.payload;
             state.responseSearch = null;
@@ -286,28 +310,36 @@ export const {
     authError,
     authLogout,
     isTokenValid,
+    doneSuccess,
+    getDeleteSuccess,
     getRequest,
+    productSuccess,
+    sellerProductSuccess,
+    productDetailsSuccess,
+    getProductsFailed,
+    getSellerProductsFailed,
+    getProductDetailsFailed,
     getFailed,
     getError,
-    getDeleteSuccess,
-    productSuccess,
-    getProductsFailed,
-    sellerProductSuccess,
-    getSellerProductsFailed,
-    specificProductSuccess,
-    getSpecificProductsFailed,
-    productDetailsSuccess,
-    getProductDetailsFailed,
-    customersListSuccess,
-    getCustomersListFailed,
-    setFilteredProducts,
     getSearchFailed,
+    customersListSuccess,
+    getSpecificProductsFailed,
+    specificProductSuccess,
     addToCart,
     removeFromCart,
     removeSpecificProduct,
-    fetchProductDetailsFromCart,
     removeAllFromCart,
-    updateCurrentUser
+    fetchProductDetailsFromCart,
+    updateCurrentUser,
+   
+  // -----> FIXED 11TH BUG <--------//
+  // EXPORTED THE getCustomersListFailed 
+    getCustomersListFailed,
+
+    //<------FIXED 12TH BUG ---->
+    // EXPORTING THE setFilteredProducts,
+    setFilteredProducts,
+    
 } = userSlice.actions;
 
-export default userSlice.reducer;
+export const userReducer = userSlice.reducer;
