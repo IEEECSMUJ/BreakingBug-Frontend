@@ -20,7 +20,7 @@ const Products = ({}) => {
   const [message, setMessage] = useState("");
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem + itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage; // **Fixed the calculation for indexOfFirstItem**
   const currentItems = (indexOfFirstItem, indexOfLastItem);
 
   const handleAddToCart = (event, product) => {
