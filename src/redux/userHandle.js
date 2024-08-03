@@ -49,7 +49,7 @@ export const addStuff = (address, fields) => async (dispatch) => {
 
     try {
         const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${address}`, fields, {
-            headers: { 'Content-Type': 'application/json' },---
+            headers: { 'Content-Type': 'application/json' },
         });
 
         if (result.data.message) {
