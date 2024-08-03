@@ -5,6 +5,7 @@ import {
     tableCellClasses,
     Drawer as MuiDrawer,
     AppBar as MuiAppBar,
+    Button // **Import Button from @mui/material**
 } from "@mui/material";
 import { Link } from "react-scroll";
 
