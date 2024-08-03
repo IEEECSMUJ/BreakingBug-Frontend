@@ -49,8 +49,7 @@ const Navbar = () => {
 
     const [isCartOpen, setIsCartOpen] = React.useState(false);
 
-    // Cart
-    const handleOpen Cart = () => {
+    const handleCloseCart = () => {   //name conflict Open-->Close
         setIsCartOpen(true);
     };
 
