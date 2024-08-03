@@ -4,23 +4,24 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/userSlice';
 import { BasicButton } from '../utils/buttonStyles';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; 
 import Popup from './Popup';
 import { addStuff } from '../redux/userHandle';
 
 const Products = ({}) => {
+  const navigate=useNavigate();   //used imported hooks to define navigate function
   const dispatch = useDispatch();
 
   const itemsPerPage = 9;
 
-  const { currentRole, responseSearch } = useSelector();
+  const { currentRole, responseSearch } = useSelector(state=>state.user);   //using updater function 
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem + itemsPerPage;
-  const currentItems = (indexOfFirstItem, indexOfLastItem);
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;   //corrected logic "+"-->"-"
+  const currentItems = responseSearch.slice(indexOfFirstItem,indexOfLastItem)   //corrected slicing logic
 
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
@@ -38,6 +39,10 @@ const Products = ({}) => {
     setMessage("You have to login or register first")
     setShowPopup(true)
   };
+
+  const handlePageChange=(value)=>{
+     setCurrentPage(value)
+  }
 
   if (!responseSearch) {
     return <div>Product not found</div>;
@@ -89,14 +94,14 @@ const Products = ({}) => {
           count={Math.ceil(productData.length / itemsPerPage)}
           page={currentPage}
           color="secondary"
-
+          onChange={handlePageChange}
         />
       </Container>
 
-      <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
+      { <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup}  onClick={messageHandler} />  }   
     </>
   )
-};
+};    //added onClick handler--MessageHandler
 
 export default Products;
 

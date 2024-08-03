@@ -149,7 +149,7 @@ const userSlice = createSlice({
 
         authFailed: (state, action) => {
             state.status = 'failed';
-            state.response = action.payload;
+            state.responseReview = action.payload;           // Corrected property name from reponse to responseReview
             state.error = null;
         },
         authError: (state, action) => {
