@@ -17,7 +17,7 @@ const ShippingPage = ({ handleNext, profile }) => {
 
   let shippingData = currentUser.shippingData;
 
-  console.log(shippingData);
+  // console.log(shippingData);  //no need of printing it on console
 
   const [formData, setFormData] = useState({
     address: '',
@@ -75,7 +75,7 @@ const ShippingPage = ({ handleNext, profile }) => {
       newErrors.country = '';
     }
 
-    if (formData.pinCode.trim() === '' || isNaN(formData.pinCode) && formData.pinCode.length == 6) {
+    if (formData.pinCode.trim() === '' || isNaN(formData.pinCode) && formData.pinCode.length !== 6) {  //Check if pinCode is numeric and length is 6
       newErrors.pinCode = 'Pin Code is required and should be a 6-digit number';
     } else {
       newErrors.pinCode = '';

@@ -14,7 +14,7 @@ const Cart = ({ setIsCartOpen }) => {
 
     const dispatch = useDispatch();
 
-    const navigate = useNavigate();
+    const navigate = useNavigate();   //defined use naviagte
 
     const { currentUser } = useSelector((state) => state.user);
 

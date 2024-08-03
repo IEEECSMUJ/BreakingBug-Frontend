@@ -23,6 +23,7 @@ const PaymentForm = ({ handleBack }) => {
         cardName: '',
         cardNumber: '',
         expDate: '',
+        cvv:''            // Added cvv to paymentData
 
     });
 

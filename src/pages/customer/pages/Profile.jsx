@@ -30,7 +30,7 @@ const Profile = () => {
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <ProfileHeader variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <ShippingPage profile="Profile" />
-        </ProfileHeader>
+        </ProfileHeader>                {/*paper component must be used instead of Typography */}
       </Container>
     </React.Fragment>
   );

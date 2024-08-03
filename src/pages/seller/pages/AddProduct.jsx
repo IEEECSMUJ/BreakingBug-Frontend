@@ -45,7 +45,8 @@ const AddProduct = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log(fields);
+    dispatch(addStuff(fields)); // Dispatch the action to add the product
+    setLoader(true);             //no need of console.log
   };
 
   useEffect(() => {

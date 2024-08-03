@@ -23,6 +23,7 @@ const ProductCard = ({ product }) => {
                         height: 1,
                         objectFit: 'cover',
                         position: 'absolute',
+                        width: '100%'     // Ensure the image covers the box
                     }}
                 />
             </Box>
@@ -34,7 +35,9 @@ const ProductCard = ({ product }) => {
                     variant="subtitle2"
                     noWrap
                     onClick={() => navigate("/order/view/" + product._id)}
-                    sx={{ fontWeight: 700 }}
+                    sx={{ fontWeight: 700,
+                        
+                     }}
                 >
                     {product.productName}
                 </Link>
@@ -61,8 +64,17 @@ const ProductCard = ({ product }) => {
     );
 }
 
+
 ProductCard.propTypes = {
-    product: PropTypes.object,
+    product: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        productName: PropTypes.string,
+        productImage: PropTypes.string,   //Updated PropTypes to use PropTypes.shape for the product prop
+        price: PropTypes.shape({
+            mrp: PropTypes.number,
+            cost: PropTypes.number
+        })
+    }).isRequired
 };
 
 export default ProductCard

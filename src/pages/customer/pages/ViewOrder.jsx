@@ -153,10 +153,10 @@ const ViewOrder = () => {
                                             <ReviewCard key={index}>
                                                 <ReviewCardDivision>
                                                     <Avatar sx={{ width: "60px", height: "60px", marginRight: "1rem", backgroundColor: generateRandomColor(review._id) }}>
-                                                        {String(reviewreviewername).charAt(0)}
+                                                        {String(review.reviewer.name).charAt(0)}         //acceesing object correctly
                                                     </Avatar>
                                                     <ReviewDetails>
-                                                        <Typography variant="h6">{reviewreviewername}</Typography>
+                                                        <Typography variant="h6">{review.reviewer.name}</Typography>    //accessing objecct correctly
                                                         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
 
                                                             <Typography variant="body2">
@@ -187,10 +187,10 @@ const ViewOrder = () => {
                                                                 onClose={handleCloseMenu}
                                                                 onClick={handleCloseMenu}
                                                             >
-                                                                <MenuItem onClick={() => {
-                                                                    handleCloseMenu()
-                                                                }}>
-                                                                    <Typography textAlign="center">Edit</Typography>
+                                                                 <MenuItem onClick={handleCloseMenu}>    {/*no need of call back function */}
+                                                                    
+                                                                
+                                                                <Typography textAlign="center">Edit</Typography>
                                                                 </MenuItem>
                                                                 <MenuItem onClick={() => {
                                                                     deleteHandler(review._id)

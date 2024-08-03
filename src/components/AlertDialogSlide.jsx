@@ -28,7 +28,7 @@ const AlertDialogSlide = ({ dialog, showDialog, setShowDialog }) => {
                 <div>
                     <RedButton onClick={() => {
                         handleClose()
-                        taskHandler()
+                        //removed taskHandler() that was an additonal undefined function
                     }}>Yes</RedButton>
                 </div>
             </DialogActions>

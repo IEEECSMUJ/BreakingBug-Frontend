@@ -49,7 +49,7 @@ export const addStuff = (address, fields) => async (dispatch) => {
 
     try {
         const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${address}`, fields, {
-            headers: { 'Content-Type': 'application/json' },---
+            headers: { 'Content-Type': 'application/json' },                  //removed "---" which was creating a problem in run
         });
 
         if (result.data.message) {
@@ -99,7 +99,7 @@ export const updateCustomer = (fields, id) => async (dispatch) => {
     dispatch(updateCurrentUser(fields));
     await axios.put(`${process.env.REACT_APP_BASE_URL}/CustomerUpdate/${id}`, fields);
 };
-
+      try{                // try block was missing
         dispatch(stuffUpdated());
 
       } catch (error) {
@@ -108,7 +108,7 @@ export const updateCustomer = (fields, id) => async (dispatch) => {
 
     }
 
-    }
+    // removed additonal brakcet "}"
 
 export const getProductsbySeller = (id) => async (dispatch) => {
     dispatch(getRequest());

@@ -13,8 +13,10 @@ import { useSelector } from 'react-redux';
 const SideBar = () => {
 
     
-
+    const location = useLocation();          // Get the current location
     const { currentRole } = useSelector(state => state.user);
+
+    const getLinkStyle = (path) => location.pathname.startsWith(path) ? styles.currentStyle : styles.normalStyle;
 
     return (
         <>
