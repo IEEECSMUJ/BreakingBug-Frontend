@@ -2,7 +2,9 @@ import React from "react";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from "@mui/material";
 import { GreenButton, RedButton } from "../utils/buttonStyles";
 
-const AlertDialogSlide = ({ dialog, showDialog, setShowDialog }) => {
+ //<-----14TH BUG FIXED ---->
+ // receiving taskHandeler as prop
+const AlertDialogSlide = ({ dialog, showDialog, setShowDialog,taskHandler  }) => {
     const handleClose = () => {
         setShowDialog(false);
     };

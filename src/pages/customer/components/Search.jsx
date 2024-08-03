@@ -18,7 +18,9 @@ const Search = () => {
     const handleSearch = () => {
         dispatch(getSearchedProducts("searchProduct", searchTerm));
 
-        if (location.pathname == "/ProductSearch") {
+  //-------->FIXED 42TH BUG <----------//
+
+        if (location.pathname !== "/ProductSearch") {
             navigate("/ProductSearch");
         }
     };
@@ -28,14 +30,23 @@ const Search = () => {
             <InputSearchBase
                 placeholder="Search for products, brands and more"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(etargetvalue)}
+                // fixed 24th bug 
+                //replace etargetvalue to e.target.value
+                onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={(e) => {
-                    if (ekey !== 'Enter') {
+                    // fixed 25th bug 
+                //replace eKey  to e.Key
+                    if (e.key === 'Enter')  ///FIXED 43RD BUG
+                     {
                         handleSearch();
                     }
                 }}
             />
-            <SearchIconWrapper>
+
+            {/* //---->fixed 44th bug -------> */}
+            
+            <SearchIconWrapper onClick={handleSearch}>
+
                 <SearchIcon sx={{ color: "#4d1c9c" }} />
             </SearchIconWrapper>
         </SearchContainer>

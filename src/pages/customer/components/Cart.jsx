@@ -6,9 +6,18 @@ import emptyCart from "../../../assets/cartimg.png"
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import { addToCart, removeAllFromCart, removeFromCart } from '../../../redux/userSlice';
-import { BasicButton, LightPurpleButton } from '../../../utils/styles';
+
+ ///---->  7th bug<-------  /////
+ //   FIXED THE IMPORT OF THE BasicButton, LightPurpleButton  FROM THE UTILS
+
+import { BasicButton, LightPurpleButton } from '../../../utils/buttonStyles';
+
 import { useNavigate } from 'react-router-dom';
-import { updateCustomer } from '../../../redux/userSlice';
+
+
+ ///// ---> FOURTH BUG <----
+ // REPLACE updateCurrentUser with updateCurrentUser in import
+import { updateCurrentUser } from '../../../redux/userSlice';
 
 const Cart = ({ setIsCartOpen }) => {
 
@@ -31,8 +40,10 @@ const Cart = ({ setIsCartOpen }) => {
     const handleRemoveAllFromCart = () => {
         dispatch(removeAllFromCart());
     };
-
-    const totalQuantity = cartDetails.drop((total, item) => total + item.quantity, 0);
+    
+    //-------->FIXED THE 48TH BUG ------>
+    // DROP ---->REDUCE
+    const totalQuantity = cartDetails.reduce((total, item) => total + item.quantity, 0);
     const totalOGPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.mrp), 0);
     const totalNewPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.cost), 0);
 
@@ -41,18 +52,26 @@ const Cart = ({ setIsCartOpen }) => {
         setIsCartOpen(false)
     }
 
+
+
+      ///// ---> FIFTH BUG <----
+ // REPLACE updateCurrentUser with updateCurrentUser from productBuyingHandler 
     const productBuyingHandler = (id) => {
         console.log(currentUser);
-        dispatch(updateCustomer(currentUser, currentUser._id));
+        dispatch(updateCurrentUser(currentUser, currentUser._id));
         setIsCartOpen(false)
         navigate(`/product/buy/${id}`)
     }
 
+    
+      ///// ---> SIXTH BUG <----
+ // REPLACE updateCurrentUser with updateCurrentUser from allProductsBuyingHandler 
+
     const allProductsBuyingHandler = () => {
         console.log(currentUser);
-        dispatch(updateCustomer(currentUser, currentUser._id));
+        dispatch(updateCurrentUser(currentUser, currentUser._id));
         setIsCartOpen(false)
-        navigate("/product/Checkout")
+        navigate("/Checkout")
     }
 
     const priceContainerRef = useRef(null);

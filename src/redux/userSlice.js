@@ -43,7 +43,7 @@ export const updateShippingDataInLocalStorage = (shippingData) => {
     localStorage.setItem('user', JSON.stringify(updatedUser));
 };
 
-const userSlice = createSlice({
+ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
@@ -170,9 +170,29 @@ const userSlice = createSlice({
         },
 
         isTokenValid: (state) => {
-            const decodedToken = jwtDecode(state.currentToken);
-            if (state.currentToken) {              state.isLoggedIn = true;
-            } else {
+            //<---fixed the 36th bug ---->
+            // check that token is present before decoding it
+            if (state.currentToken) { 
+
+
+                //---->fixed 37th bug------>
+                // added try catch blocks for error handelling
+                try{
+                    const decodedToken = jwtDecode(state.currentToken);
+                    state.isLoggedIn = true;
+                } catch(error){
+                    console.error("Token decoding failed:", error);
+                    localStorage.removeItem('user');
+                    state.currentUser = null;
+                    state.currentRole = null;
+                    state.currentToken = null;
+                    state.status = 'idle';
+                    state.response = null;
+                    state.error = null;
+                    state.isLoggedIn = false;
+                }
+            }       
+                else {
                 localStorage.removeItem('user');
                 state.currentUser = null;
                 state.currentRole = null;
@@ -311,6 +331,14 @@ export const {
     removeAllFromCart,
     fetchProductDetailsFromCart,
     updateCurrentUser,
+   
+  // -----> FIXED 11TH BUG <--------//
+  // EXPORTED THE getCustomersListFailed 
+    getCustomersListFailed,
+
+    //<------FIXED 12TH BUG ---->
+    // EXPORTING THE setFilteredProducts,
+    setFilteredProducts,
     
 } = userSlice.actions;
 

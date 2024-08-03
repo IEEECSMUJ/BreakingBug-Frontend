@@ -49,7 +49,10 @@ export const addStuff = (address, fields) => async (dispatch) => {
 
     try {
         const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${address}`, fields, {
-            headers: { 'Content-Type': 'application/json' },---
+             
+            // ---> 9th bug fixed <---
+            // REMOVE THE UNWANTED CHARACTERS (---) 
+            headers: { 'Content-Type': 'application/json' },
         });
 
         if (result.data.message) {
@@ -94,21 +97,19 @@ export const deleteStuff = (id, address) => async (dispatch) => {
         dispatch(getError(error));
     }
 }
+  
 
+         // --------> FIXED 10TH BUG <--------- /////
+        // FIXED THE TRY AND CATCH BLOCK 
 export const updateCustomer = (fields, id) => async (dispatch) => {
-    dispatch(updateCurrentUser(fields));
-    await axios.put(`${process.env.REACT_APP_BASE_URL}/CustomerUpdate/${id}`, fields);
-};
-
+    try {
+        dispatch(updateCurrentUser(fields));
+        await axios.put(`${process.env.REACT_APP_BASE_URL}/CustomerUpdate/${id}`, fields);
         dispatch(stuffUpdated());
-
-      } catch (error) {
-
+    } catch (error) {
         dispatch(getError(error));
-
     }
-
-    }
+};
 
 export const getProductsbySeller = (id) => async (dispatch) => {
     dispatch(getRequest());
@@ -158,8 +159,9 @@ export const getProductDetails = (id) => async (dispatch) => {
         dispatch(getError(error));
     }
 }
+//  <------fixed 34th bug ----->
 
-export const getCustomers = (id) => async (dispatch) => {
+export const getCustomers = (address,id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
@@ -201,7 +203,7 @@ export const getSearchedProducts = (address, key) => async (dispatch) => {
             dispatch(getSearchFailed(result.data.message));
         }
         else {
-            dispatch(setFilteredProducts(result.files));
+            dispatch(setFilteredProducts(result.data)); //<----FIXED THE 45TH BUG --------->
         }
 
     } catch (error) {

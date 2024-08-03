@@ -2,7 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { userReducer } from './userSlice';
 
 const store = configureStore({
-    reducer={
+
+ /// ------> 8TH BUG <-----//
+ // FIX(REPLACE = FROM :) 
+
+    reducer :{
         user: userReducer,
     }
 });

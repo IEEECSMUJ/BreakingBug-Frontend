@@ -32,33 +32,39 @@ const Navbar = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
-
+    // <-----fixed the 36th bug ---->
+    // positioning of use state
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElSign, setAnchorElSign] = React.useState(null);
     React.useEffect(() => {
         if (currentRole === "Customer") {
             console.log(currentUser);
             dispatch(updateCustomer(currentUser, currentUser._id));
         }
-    }, [currentRole, currentUser, dispatch, ancorElNav])
+    }, [currentRole, currentUser, dispatch, anchorElNav]) //<---Fixed 22nd bug(typo)
 
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [anchorElSign, setAnchorElSign] = React.useState(null);
 
     const open = Boolean(anchorElUser);
     const openSign = Boolean(anchorElSign);
 
     const [isCartOpen, setIsCartOpen] = React.useState(false);
+ 
+       //  FIRST BUG
+    //--->  FIXED THE SYNTEX ERROR FOR OPENING  THE CART AND CLOSING THE CART  <----
 
-    // Cart
-    const handleOpen Cart = () => {
+    // Cart OPEN
+    const handleOpenCart = () => {
         setIsCartOpen(true);
     };
-
-    const handleOpenCart = () => {
+    
+    // SECOND BUG (FUNCTION NAME WAS OF THE SAME NAME AS ABOVE CAUSING FUNCTION OVERRIDING)
+    
+    const handleCloseCart = () => {
         setIsCartOpen(false);
     };
 
-    // Navigation Menu
+    
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -67,7 +73,7 @@ const Navbar = () => {
         setAnchorElNav(null);
     };
 
-    // User Menu
+   
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -76,7 +82,7 @@ const Navbar = () => {
         setAnchorElUser(null);
     };
 
-    // Signin Menu
+    
     const handleOpenSigninMenu = (event) => {
         setAnchorElSign(event.currentTarget);
     };

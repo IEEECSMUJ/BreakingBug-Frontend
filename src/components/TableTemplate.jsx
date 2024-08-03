@@ -1,7 +1,11 @@
 import React, {useState} from 'react'
-import {Table, TableBody, TableCell, TableContainer, TableRow, styled} from '@mui/material';
-
-const TableTemplate = ({columns, rows}) => {
+//<----------fixed 21st bug ------------->
+// import tableCellClasses from @mui/material
+import {Table, TableBody, TableCell, TableContainer, TableRow,tableCellClasses, styled} from '@mui/material';
+  
+//<----FIXED 19TH BUG ---->
+  //takin buttonHaver as prop
+const TableTemplate = ({buttonHaver,columns, rows}) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   return (
@@ -33,14 +37,16 @@ const TableTemplate = ({columns, rows}) => {
                         <StyledTableCell key={column.Id} align={column.align}>
                           {
                             column.format && typeof value === 'number'
-                              ? column.format(id)
+                              ? column.format(value) // 18TH BUG FIXED (REPLACE id-->value)
                               : value
                           }
                         </StyledTableCell>
                       );
                     })}
+                    
                     <StyledTableCell align="center">
-                      <ButtonHaver row={row}/>
+                    {/* <------------FIXED 20TH BUG -------->*/}
+                      <buttonHaver row={row}/>
                     </StyledTableCell>
                   </StyledTableRow>
                 );

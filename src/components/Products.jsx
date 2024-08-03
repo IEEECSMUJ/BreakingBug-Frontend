@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Container, Grid, Pagination } from '@mui/material';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,19 +8,35 @@ import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import { addStuff } from '../redux/userHandle';
 
-const Products = ({}) => {
+const Products = ({ productData }) => {
   const dispatch = useDispatch();
+  //<------15TH BUG --------->
+  // USING useNavigate hook
+  const navigate = useNavigate();
 
-  const itemsPerPage = 9;
+  const itemsPerPage = 5;
+  // <----------FIXED THE 41TH BUG ----------->
+  // using useeffect to rerender the products page logic when the page is changed
 
-  const { currentRole, responseSearch } = useSelector();
+  const { currentRole} = useSelector(state => state.user);
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
+  const [currentItems, setCurrentItems] = useState([]);
+  
+// <--------FIXED THE 40TH BUG ------>
+// FIXED THE LOGIC TO CALCULATE PAGING AND SLICING PRODUCTS
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = productData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem + itemsPerPage;
-  const currentItems = (indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    setCurrentItems(productData.slice(indexOfFirstItem, indexOfLastItem));
+  }, [currentPage, productData]);
+
 
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
@@ -35,11 +51,16 @@ const Products = ({}) => {
 
   const messageHandler = (event) => {
     event.stopPropagation();
-    setMessage("You have to login or register first")
+    setMessage("You have to login or register first");
     setShowPopup(true)
   };
 
-  if (!responseSearch) {
+  
+
+  
+      {/* <------16TH BUG FIXED --------------> */}
+      {/* REPLACE  responseSearch from productData */}
+  if (!productData || productData.length === 0) {
     return <div>Product not found</div>;
   }
 
@@ -85,9 +106,12 @@ const Products = ({}) => {
       </ProductGrid>
 
       <Container sx={{ mt: 10, mb: 10, display: "flex", justifyContent: 'center', alignItems: "center" }}>
+
+
         <Pagination
           count={Math.ceil(productData.length / itemsPerPage)}
           page={currentPage}
+          onChange={(event, value) => setCurrentPage(value)}
           color="secondary"
 
         />

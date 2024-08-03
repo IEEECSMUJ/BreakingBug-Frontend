@@ -28,6 +28,9 @@ const App = () => {
 
 
     dispatch(isTokenValid());
+    // <------Fixed the 39th bug ---->
+
+    dispatch(getProducts());
   }, [dispatch]); 
 
   return (

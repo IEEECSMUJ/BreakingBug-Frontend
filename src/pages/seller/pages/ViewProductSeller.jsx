@@ -139,7 +139,7 @@ const ViewProductSeller = () => {
                   <GreenButton
                     onClick={() => setShowTab(!showTab)}
                   >
-                    {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}{buttonText}
+                    {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}Show More
                   </GreenButton>
                 </ButtonContainer>
 
@@ -295,11 +295,13 @@ const ViewProductSeller = () => {
                     {productDetails.reviews.map((review, index) => (
                       <ReviewCard key={index}>
                         <ReviewCardDivision>
+                        {/* <---fixed 33rd bug -----> */}
+                        {/* reviewreviewername ---> 'review.reviewer.name' */}
                           <Avatar sx={{ width: "60px", height: "60px", marginRight: "1rem", backgroundColor: generateRandomColor(review._id) }}>
-                            {String(reviewreviewername).charAt(0)}
+                            {String(review.reviewer.name).charAt(0)}
                           </Avatar>
                           <ReviewDetails>
-                            <Typography variant="h6">{reviewreviewername}</Typography>
+                            <Typography variant="h6">{review.reviewer.name}</Typography>
                             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
 
                               <Typography variant="body2">

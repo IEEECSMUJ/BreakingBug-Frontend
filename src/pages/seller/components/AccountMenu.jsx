@@ -5,20 +5,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const AccountMenu = () => {
-    const [anchorEl, setAnchorEl] = useEffect(null);
+    const [anchorEl, setAnchorEl] = useState(null); // Bug fix 52: Changed from useEffect to useState
 
     const open = Boolean(anchorEl);
 
     const { currentUser } = useSelector(state => state.user);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     return (
         <>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -32,7 +34,7 @@ const AccountMenu = () => {
                         aria-expanded={open ? 'true' : undefined}
                     >
                         <Avatar sx={{ width: 32, height: 32, backgroundColor: "#8970dc" }}>
-                            {String(currentUser.name).charAt(0)}
+                            {currentUser?.name?.charAt(0)} {/* Bug fix 52: Added optional chaining */}
                         </Avatar>
                     </IconButton>
                 </Tooltip>
@@ -52,25 +54,21 @@ const AccountMenu = () => {
             >
                 <MenuItem onClick={() => navigate("/Profile")}>
                     <Avatar />
-                    <Link to="/Profile">
-                        Profile
-                    </Link>
+                    Profile {/* Bug fix 52: Removed nested Link */}
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={() => navigate("/Logout")}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                    <Link to="/Logout">
-                        Logout
-                    </Link>
+                    Logout {/* Bug fix 52: Removed nested Link */}
                 </MenuItem>
             </Menu>
         </>
     );
 }
 
-export default AccountMenu
+export default AccountMenu;
 
 const styles = {
     styledPaper: {
@@ -96,4 +94,4 @@ const styles = {
             zIndex: 0,
         },
     }
-}
+};
