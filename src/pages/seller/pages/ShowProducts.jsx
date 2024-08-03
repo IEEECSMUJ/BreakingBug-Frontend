@@ -7,6 +7,8 @@ import { deleteStuff, getProductsbySeller } from '../../../redux/userHandle';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate.jsx';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import DeleteIcon from "@mui/icons-material/Delete";
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';      //not imported but was used
 import UploadIcon from '@mui/icons-material/Upload';
 import AlertDialogSlide from '../../../components/AlertDialogSlide';
 

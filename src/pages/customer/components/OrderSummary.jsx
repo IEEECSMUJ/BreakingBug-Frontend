@@ -22,8 +22,8 @@ const OrderSummary = ({ handleNext, handleBack }) => {
         if (productID) {
             dispatch(fetchProductDetailsFromCart(productID));
         }else
-            return(handleNext)
-    }, [productID, dispatch]);
+            return (handleNext);          
+    }, [productID, dispatch,handleNext]);
 
     let cartDetails = currentUser.cartDetails;
     let shippingData = currentUser.shippingData;
@@ -126,7 +126,7 @@ const OrderSummary = ({ handleNext, handleBack }) => {
                 </Button>
                 <Button
                     variant="contained"
-                    onClick={handleBack}
+                    onClick={handleNext}    // Fixed to call `handleNext` on click
                     sx={{ mt: 3, ml: 1 }}
                 >
                     Next

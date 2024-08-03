@@ -18,7 +18,7 @@ const Search = () => {
     const handleSearch = () => {
         dispatch(getSearchedProducts("searchProduct", searchTerm));
 
-        if (location.pathname == "/ProductSearch") {
+        if (location.pathname !== "/ProductSearch") {    //Ensure navigation happens only if not on the search page
             navigate("/ProductSearch");
         }
     };
@@ -28,9 +28,9 @@ const Search = () => {
             <InputSearchBase
                 placeholder="Search for products, brands and more"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(etargetvalue)}
+                onChange={(e) => setSearchTerm(e.target.value)}  //Correct the event target value
                 onKeyDown={(e) => {
-                    if (ekey !== 'Enter') {
+                    if (e.key === 'Enter') {    //Ensure 'Enter' key triggers searchEnsure 'Enter' key triggers search
                         handleSearch();
                     }
                 }}

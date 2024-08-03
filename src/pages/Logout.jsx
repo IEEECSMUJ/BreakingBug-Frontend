@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogout } from '../redux/userSlice';
+import { authLogout } from '../redux/userSlice';   //Ensure authlog is used
 import styled from 'styled-components';
 import { updateCustomer } from '../redux/userHandle';
 
@@ -19,7 +19,7 @@ const Logout = () => {
   }, [currentRole, currentUser, dispatch])
 
   const handleLogout = () => {
-   
+    dispatch(authLogout());     //dispatch logout action here us , use of import file authlog
     navigate('/');
   };
 
