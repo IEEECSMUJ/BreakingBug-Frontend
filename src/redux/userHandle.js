@@ -30,7 +30,7 @@ export const authUser = (fields, role, mode) => async (dispatch) => {
     dispatch(authRequest());
 
     try {
-        const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${role}${mode}`, fields, {
+        const result = await axios.post(`https://breaking-bug-backend.vercel.app/${role}${mode}`, fields, {
             headers: { 'Content-Type': 'application/json' },
         });
         if (result.data.role) {
@@ -45,11 +45,12 @@ export const authUser = (fields, role, mode) => async (dispatch) => {
 };
 
 export const addStuff = (address, fields) => async (dispatch) => {
-    dispatch(authRequest());
+    
 
     try {
-        const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${address}`, fields, {
-            headers: { 'Content-Type': 'application/json' },---
+        dispatch(authRequest());
+        const result = await axios.post(`https://breaking-bug-backend.vercel.app/${address}`, fields, {
+            headers: { 'Content-Type': 'application/json' },
         });
 
         if (result.data.message) {
@@ -65,7 +66,7 @@ export const addStuff = (address, fields) => async (dispatch) => {
 export const updateStuff = (fields, id, address) => async (dispatch) => {
 
     try {
-        const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`, fields, {
+        const result = await axios.put(`https://breaking-bug-backend.vercel.app/${address}/${id}`, fields, {
 
         });
         if (result.data.message) {
@@ -84,7 +85,7 @@ export const deleteStuff = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.delete(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
+        const result = await axios.delete(`https://breaking-bug-backend.vercel.app/${address}/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -96,9 +97,10 @@ export const deleteStuff = (id, address) => async (dispatch) => {
 }
 
 export const updateCustomer = (fields, id) => async (dispatch) => {
+    try{
     dispatch(updateCurrentUser(fields));
-    await axios.put(`${process.env.REACT_APP_BASE_URL}/CustomerUpdate/${id}`, fields);
-};
+    await axios.put(`https://breaking-bug-backend.vercel.app/CustomerUpdate/${id}`, fields);
+
 
         dispatch(stuffUpdated());
 
@@ -108,13 +110,13 @@ export const updateCustomer = (fields, id) => async (dispatch) => {
 
     }
 
-    }
+};
 
 export const getProductsbySeller = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/getSellerProducts/${id}`);
+        const result = await axios.get(`https://breaking-bug-backend.vercel.app/getSellerProducts/${id}`);
         if (result.data.message) {
             dispatch(getSellerProductsFailed(result.data.message));
         }
@@ -130,7 +132,7 @@ export const getProducts = () => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/getProducts`);
+        const result = await axios.get(`https://breaking-bug-backend.vercel.app/getProducts`);
         if (result.data.message) {
             dispatch(getProductsFailed(result.data.message));
         }
@@ -146,7 +148,7 @@ export const getProductDetails = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/getProductDetail/${id}`);
+        const result = await axios.get(`https://breaking-bug-backend.vercel.app/getProductDetail/${id}`);
         if (result.data.message) {
             dispatch(getProductDetailsFailed(result.data.message));
         }
@@ -159,11 +161,11 @@ export const getProductDetails = (id) => async (dispatch) => {
     }
 }
 
-export const getCustomers = (id) => async (dispatch) => {
+export const getCustomers = (id,address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`https://breaking-bug-backend.vercel.app/${address}/${id}`);
         if (result.data.message) {
             dispatch(getCustomersListFailed(result.data.message));
         }
@@ -179,7 +181,7 @@ export const getCustomers = (id) => async (dispatch) => {
 export const getSpecificProducts = (id, address) => async (dispatch) => {
     dispatch(getRequest());
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
+        const result = await axios.get(`https://breaking-bug-backend.vercel.app/${address}/${id}`);
         if (result.data.message) {
             dispatch(getSpecificProductsFailed(result.data.message));
         }
@@ -196,7 +198,7 @@ export const getSearchedProducts = (address, key) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${key}`);
+        const result = await axios.get(`https://breaking-bug-backend.vercel.app/${address}/${key}`);
         if (result.data.message) {
             dispatch(getSearchFailed(result.data.message));
         }

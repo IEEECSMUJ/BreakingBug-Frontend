@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Divider, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -11,8 +10,8 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import { useSelector } from 'react-redux';
 
 const SideBar = () => {
-
     
+    const location = useLocation();///////////////////////////
 
     const { currentRole } = useSelector(state => state.user);
 

@@ -31,6 +31,7 @@ const OrderSummary = ({ handleNext, handleBack }) => {
     const totalQuantity = cartDetails.reduce((total, item) => total + item.quantity, 0);
     const totalOGPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.mrp), 0);
     const totalNewPrice = cartDetails.reduce((total, item) => total + (item.quantity * item.price.cost), 0);
+    const totalamount = cartDetails.reduce((total, item) => total + (item.quantity * item.price.mrp), 0);
 
     return (
         <React.Fragment>

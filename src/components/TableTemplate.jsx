@@ -1,9 +1,24 @@
 import React, {useState} from 'react'
-import {Table, TableBody, TableCell, TableContainer, TableRow, styled} from '@mui/material';
+import {Table, TableBody, TableCell, TableContainer, TableRow,  styled} from '@mui/material';
+import {tableCellClasses} from '@mui/material/TableCell';
+import Button from '@mui/material/Button';
+
+
 
 const TableTemplate = ({columns, rows}) => {
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  /// moydfying the TableTemplate component
+  const ButtonHaver = ({ row }) => {
+    return (
+      <StyledButton variant="contained">
+        Action
+      </StyledButton>
+    );
+  };
+ 
+
   return (
     <>
       <TableContainer>
@@ -33,7 +48,7 @@ const TableTemplate = ({columns, rows}) => {
                         <StyledTableCell key={column.Id} align={column.align}>
                           {
                             column.format && typeof value === 'number'
-                              ? column.format(id)
+                              ? column.format(column.id)
                               : value
                           }
                         </StyledTableCell>
@@ -63,6 +78,14 @@ const TableTemplate = ({columns, rows}) => {
 }
 
 export default TableTemplate
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.common.white,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.common.white,
+  },
+}));
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
   [`&.${tableCellClasses.head}`]: {

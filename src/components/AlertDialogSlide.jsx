@@ -6,6 +6,10 @@ const AlertDialogSlide = ({ dialog, showDialog, setShowDialog }) => {
     const handleClose = () => {
         setShowDialog(false);
     };
+    // task handle made for the task to be done after clicking yes
+    const taskHandler = () => {
+        console.log("Task Done")
+    }
     return (
         <Dialog
             open={showDialog}

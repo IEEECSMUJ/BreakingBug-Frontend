@@ -17,22 +17,24 @@ import { isTokenValid } from './redux/userSlice';
 import CheckoutAftermath from './pages/customer/pages/CheckoutAftermath';
 import ViewOrder from './pages/customer/pages/ViewOrder';
 
+
 const App = () => {
 
   const dispatch = useDispatch()
 
-  const { isLoggedIn, currentToken, currentRole, productData } = useSelector(state => state.user);
+  const { isLoggedIn, currentToken, currentRole, productData } = useSelector(state => state.user); 
+
 
   useEffect(() =>
      {
 
 
-    dispatch(isTokenValid());
+    dispatch(isTokenValid(currentToken));
   }, [dispatch]); 
 
   return (
     <BrowserRouter>
-      {(!isLoggedIn && currentRole === null) &&
+      {( isLoggedIn &&currentRole === null) &&
         <>
           <Navbar />
 

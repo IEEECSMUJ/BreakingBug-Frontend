@@ -9,6 +9,8 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import DeleteIcon from "@mui/icons-material/Delete";
 import UploadIcon from '@mui/icons-material/Upload';
 import AlertDialogSlide from '../../../components/AlertDialogSlide';
+import { Grid } from '@mui/material';///////
+import { Box } from '@mui/system';//////
 
 const ShowProducts = () => {
   const dispatch = useDispatch();

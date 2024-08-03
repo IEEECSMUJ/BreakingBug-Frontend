@@ -39,6 +39,7 @@ const ViewProduct = () => {
     };
 
     const reviewer = currentUser && currentUser._id
+    
 
     return (
         <>

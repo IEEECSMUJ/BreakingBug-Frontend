@@ -7,20 +7,18 @@ import { BasicButton } from '../utils/buttonStyles';
 import { useNavigate } from 'react-router-dom';
 import Popup from './Popup';
 import { addStuff } from '../redux/userHandle';
-
-const Products = ({}) => {
+const Products = () => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const { productData, currentRole, responseSearch } = useSelector((state) => state.user);
   const itemsPerPage = 9;
-
-  const { currentRole, responseSearch } = useSelector();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);//////////
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem + itemsPerPage;
-  const currentItems = (indexOfFirstItem, indexOfLastItem);
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = productData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
@@ -35,8 +33,12 @@ const Products = ({}) => {
 
   const messageHandler = (event) => {
     event.stopPropagation();
-    setMessage("You have to login or register first")
-    setShowPopup(true)
+    setMessage("You have to login or register first");
+    setShowPopup(true);
+  };
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   if (!responseSearch) {
@@ -47,7 +49,11 @@ const Products = ({}) => {
     <>
       <ProductGrid container spacing={3}>
         {currentItems.map((data, index) => (
-          <Grid item xs={12} sm={6} md={4}
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
             key={index}
             onClick={() => navigate("/product/view/" + data._id)}
             sx={{ cursor: "pointer" }}
@@ -55,29 +61,20 @@ const Products = ({}) => {
             <ProductContainer>
               <ProductImage src={data.productImage} />
               <ProductName>{data.productName}</ProductName>
-              <PriceMrp>{data.price.mrp}</PriceMrp>
+              <PriceMrp>₹{data.price.mrp}</PriceMrp>
               <PriceCost>₹{data.price.cost}</PriceCost>
               <PriceDiscount>{data.price.discountPercent}% off</PriceDiscount>
               <AddToCart>
-                {currentRole === "Customer" &&
-                  <>
-                    <BasicButton
-                      onClick={(event) => handleAddToCart(event, data)}
-                    >
-                      Add To Cart
-                    </BasicButton>
-                  </>
-                }
-                {currentRole === "Shopcart" &&
-                  <>
-                    <BasicButton
-                      onClick={(event) => handleUpload(event, data)}
-                    >
-                      Upload
-                    </BasicButton>
-                  </>
-                }
-
+                {currentRole === "Customer" && (
+                  <BasicButton onClick={(event) => handleAddToCart(event, data)}>
+                    Add To Cart
+                  </BasicButton>
+                )}
+                {currentRole === "Shopcart" && (
+                  <BasicButton onClick={(event) => handleUpload(event, data)}>
+                    Upload
+                  </BasicButton>
+                )}
               </AddToCart>
             </ProductContainer>
           </Grid>
@@ -88,14 +85,14 @@ const Products = ({}) => {
         <Pagination
           count={Math.ceil(productData.length / itemsPerPage)}
           page={currentPage}
+          onChange={handlePageChange}
           color="secondary"
-
         />
       </Container>
 
       <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
     </>
-  )
+  );
 };
 
 export default Products;

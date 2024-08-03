@@ -171,7 +171,7 @@ const userSlice = createSlice({
 
         isTokenValid: (state) => {
             const decodedToken = jwtDecode(state.currentToken);
-            if (state.currentToken) {              state.isLoggedIn = true;
+            if (decodedToken) {              state.isLoggedIn = true;
             } else {
                 localStorage.removeItem('user');
                 state.currentUser = null;
@@ -294,6 +294,7 @@ export const {
     getDeleteSuccess,
     getRequest,
     productSuccess,
+    setFilteredProducts,
     sellerProductSuccess,
     productDetailsSuccess,
     getProductsFailed,
@@ -301,6 +302,7 @@ export const {
     getProductDetailsFailed,
     getFailed,
     getError,
+    getCustomersListFailed,
     getSearchFailed,
     customersListSuccess,
     getSpecificProductsFailed,
