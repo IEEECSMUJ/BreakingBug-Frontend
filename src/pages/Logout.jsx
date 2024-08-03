@@ -16,11 +16,11 @@ const Logout = () => {
       console.log(currentUser);
       dispatch(updateCustomer(currentUser));
     }
-  }, [currentRole, currentUser, dispatch])
+  }, [currentRole, currentUser, dispatch]);
 
   const handleLogout = () => {
-   
-    navigate('/');
+    dispatch(authLogout()); // Bug 54: Dispatch the logout action
+    navigate('/'); // Redirect to home after logout
   };
 
   const handleCancel = () => {
@@ -29,7 +29,7 @@ const Logout = () => {
 
   return (
     <LogoutContainer>
-      <h1>{currentUser.name}</h1>
+      <h1>{currentUser?.name}</h1> {/* Bug 54: Added optional chaining */}
       <LogoutMessage>Are you sure you want to log out?</LogoutMessage>
       <LogoutButtonLogout onClick={handleLogout}>Log Out</LogoutButtonLogout>
       <LogoutButtonCancel onClick={handleCancel}>Cancel</LogoutButtonCancel>
