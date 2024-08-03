@@ -87,3 +87,12 @@ color: white;
   background-color: #7B1FA2;
 }
 `;
+
+// **Define and export LightPurpleButton**
+export const LightPurpleButton = styled(Button)`
+  background-color: #D1C4E9;
+  color: #512DA8;
+  &:hover {
+    background-color: #B39DDB;
+  }
+`;
