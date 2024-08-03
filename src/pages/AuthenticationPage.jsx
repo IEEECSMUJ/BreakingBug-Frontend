@@ -29,12 +29,13 @@ const AuthenticationPage = ({ mode, role }) => {
     const [shopNameError, setShopNameError] = useState(false);
 
     const handleSubmit = (event) => {
-
-        let email, password;
+        event.preventDefault();  //prevent default from submission behavior
+        let email=event.target.email.value;    //acceesing value of email and password
+        let password=event.target.password.value;
 
         if (!password) {
-            if (!email) setEmailError(true);
-            if (!password) setPasswordError(true);
+            if (!email) setEmailError(true);   
+            if (!password) setPasswordError(true);   
             return;
         }
 
