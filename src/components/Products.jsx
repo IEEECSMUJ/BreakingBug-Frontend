@@ -21,7 +21,7 @@ const Products = ({}) => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage; // **Fixed the calculation for indexOfFirstItem**
-  const currentItems = (indexOfFirstItem, indexOfLastItem);
+  const currentItems = productData.slice(indexOfFirstItem, indexOfLastItem); // **Updated to use productData for currentItems**
 
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
