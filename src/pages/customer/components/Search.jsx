@@ -18,7 +18,7 @@ const Search = () => {
     const handleSearch = () => {
         dispatch(getSearchedProducts("searchProduct", searchTerm));
 
-        if (location.pathname == "/ProductSearch") {
+        if (location.pathname === "/ProductSearch") {
             navigate("/ProductSearch");
         }
     };

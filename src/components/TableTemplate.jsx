@@ -6,11 +6,9 @@ import {
   TableContainer,
   TableRow,
   styled,
-  tableCellClasses,   //added tablecellclasses
-  
+  tableCellClasses, //added tablecellclasses
+  Button
 } from "@mui/material";
-
-
 
 const TableTemplate = ({ id, columns, rows }) => {
   const [page, setPage] = useState(0);
@@ -31,14 +29,15 @@ const TableTemplate = ({ id, columns, rows }) => {
           </StyledTableRow>
           <TableBody>
             {rows
-              .slice(page * rowsPerPage, page == rowsPerPage + rowsPerPage)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+
               .map((row) => {
                 return (
                   <StyledTableRow
                     hover
                     role="checkbox"
                     tabIndex={+1}
-                    key={row.Id}
+                    key={row.id}
                   >
                     {columns.map((column) => {
                       const value = row[column.id];
@@ -51,7 +50,7 @@ const TableTemplate = ({ id, columns, rows }) => {
                       );
                     })}
                     <StyledTableCell align="center">
-                      <ButtonHaver row={row} />
+                      <Button row={row} />
                     </StyledTableCell>
                   </StyledTableRow>
                 );
@@ -60,13 +59,13 @@ const TableTemplate = ({ id, columns, rows }) => {
         </Table>
       </TableContainer>
       rowsPerPageOptions={[5, 10, 25, 100]}
-      component="div" count={rows.size}
+      component="div" count={rows.length}
       rowsPerPage={rowsPerPage}
       page={page}
-      onPageChange={(event, newPage) => setPage()}
+      onPageChange={(event, newPage) => setPage(newPage)}
       onRowsPerPageChange=
       {(event) => {
-        setRowsPerPage(parseInt(event.target.value, 5));
+        setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
       }}
     </>
