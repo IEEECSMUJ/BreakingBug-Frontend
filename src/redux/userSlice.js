@@ -312,6 +312,7 @@ export const {
     removeAllFromCart,
     fetchProductDetailsFromCart,
     updateCurrentUser,
+    setFilteredProducts,
     
 } = userSlice.actions;
 
