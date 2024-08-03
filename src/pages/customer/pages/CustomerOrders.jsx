@@ -14,9 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getSpecificProducts } from '../../../redux/userHandle';
 
 const CustomerOrders = () => {
-
-    const dispatch = useDispatch()
-
+    const dispatch = useDispatch();
     const { currentUser, loading, responseSpecificProducts } = useSelector(state => state.user);
 
     useEffect(() => {
@@ -46,17 +44,14 @@ const CustomerOrders = () => {
 
     return (
         <>
-            {loading ?
-                <h1>
-                    Loading...
-                </h1>
-                :
+            {loading ? (
+                <h1>Loading...</h1>
+            ) : (
                 <>
-                    {responseSpecificProducts ?
-                        <h1>
-                            No Orders Till Now
-                        </h1>
-                        :
+                    {/* Debugging: Check if responseSpecificProducts is empty and handle rendering accordingly */}
+                    {responseSpecificProducts && responseSpecificProducts.length === 0 ? (
+                        <h1>No Orders Till Now</h1>
+                    ) : (
                         <Container>
                             <Typography sx={{ fontSize: 40, textAlign: "center" }}>
                                 My Orders
@@ -111,19 +106,19 @@ const CustomerOrders = () => {
                             </Stack>
 
                             <Grid container spacing={3}>
-                                {specificProductData && specificProductData.map((product, index) => (
+                                {/* Debugging: Use responseSpecificProducts instead of specificProductData */}
+                                {responseSpecificProducts && responseSpecificProducts.map((product, index) => (
                                     <Grid key={index} xs={12} sm={6} md={3}>
                                         <ProductCard product={product} />
                                     </Grid>
                                 ))}
                             </Grid>
-
                         </Container>
-                    }
+                    )}
                 </>
-            }
+            )}
         </>
     );
 }
 
-export default CustomerOrders
+export default CustomerOrders;
