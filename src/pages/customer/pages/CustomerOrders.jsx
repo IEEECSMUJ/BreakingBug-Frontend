@@ -16,7 +16,7 @@ import { getSpecificProducts } from "../../../redux/userHandle";
 const CustomerOrders = () => {
   const dispatch = useDispatch();
 
-  const { currentUser, loading, responseSpecificProducts } = useSelector(
+  const { loading, responseSpecificProducts } = useSelector(
     (state) => state.user
   );
 

@@ -8,20 +8,21 @@ import { useNavigate } from "react-router-dom";
 import Popup from "./Popup";
 import { addStuff } from "../redux/userHandle";
 
-const Products = ({}) => {
+const Products = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const itemsPerPage = 9;
 
-  const { currentRole, responseSearch } = useSelector();
+  const { currentRole, responseSearch } = useSelector((state) => state.user); //minor changes
+
   const [currentPage, setCurrentPage] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [message, setMessage] = useState("");
 
   const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem + itemsPerPage;
-  const currentItems = (indexOfFirstItem, indexOfLastItem);
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;    //recalculation
+  const currentItems = responseSearch.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleAddToCart = (event, product) => {
     event.stopPropagation();
